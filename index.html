@@ -25,19 +25,19 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 .btn-element-wrap .element-diamond-bg { position: absolute; width: 85%; height: 85%; border-radius: 5px; transform: rotate(45deg); }
 .element-icon { position: relative; width: 70%; height: 70%; z-index: 6; object-fit: contain; filter: brightness(0) invert(1); }
 
-/* カード本体の影設定 */
+/* カード本体 */
 .card-shadow-wrapper { position: relative; width: 120px; filter: drop-shadow(0 6px 0 rgba(0,0,0,0.4)); opacity: 0; transition: transform 0.2s, opacity 0.5s; cursor: pointer; }
 .card-shadow-wrapper.reveal { opacity: 1; }
 .card-shadow-wrapper:hover { transform: scale(1.05); z-index: 1000; }
 
-/* ティア行の調整：左詰め配置に変更 */
+/* ティア行 */
 .tier-row { display: flex; flex-direction: column; margin-bottom: 60px; }
 .tier-label { width: 100%; font-weight: 900; font-size: 1.4em; background: #555; color: #fff; border-radius: 8px; margin-bottom: 12px; padding: 6px 16px; border-left: 8px solid #333; box-sizing: border-box; }
 .tier-cards { 
     display: flex; 
     flex-wrap: wrap; 
-    gap: 48px 18px; /* 上下の間隔を広めに確保(48px) */
-    justify-content: flex-start; /* 左詰めに変更 */
+    gap: 48px 20px; /* 横の隙間をPCでも少し広めに確保 */
+    justify-content: flex-start; 
     padding: 60px 10px 20px; 
 } 
 
@@ -46,41 +46,42 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 .tier-stars-top svg { width: 28px; height: 28px; margin: 0 -4px; }
 
 /* カード内部 */
-.tier-card { position: relative; width: 100%; background: #fff; border-radius: 16px; display: flex; flex-direction: column; overflow: visible; z-index: 10; box-shadow: none; }
+.tier-card { position: relative; width: 100%; background: #fff; border-radius: 16px; display: flex; flex-direction: column; overflow: visible; z-index: 10; }
 .tier-img-wrap { position: relative; width: 100%; height: 120px; z-index: 5; border-radius: 16px 16px 0 0; overflow: hidden; }
 .tier-img-wrap img.main-char { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-/* バッジの影なし設定 */
 .tier-type-line-overlay { display: flex; gap: 2px; position: absolute; top: 4px; width: 100%; z-index: 60; }
-.tier-type, .tier-line { color: #fff; font-size: 0.75em; font-weight: 900; border-radius: 30px; padding: 1px 0; width: 58px; text-align: center; display: inline-block; white-space: nowrap; box-shadow: none; text-shadow: none; }
+.tier-type, .tier-line { color: #fff; font-size: 0.75em; font-weight: 900; border-radius: 30px; padding: 1px 0; width: 58px; text-align: center; display: inline-block; white-space: nowrap; }
 
 .tier-element-wrap { position: absolute; bottom: 2px; left: 2px; width: 42px; height: 42px; z-index: 110; display: flex; align-items: center; justify-content: center; }
 .tier-element-wrap .element-diamond-bg { position: absolute; width: 75%; height: 75%; border-radius: 7px; transform: rotate(45deg); border: 2px solid #fff; }
 
-/* 名前とカテゴリー */
-.tier-charname { width: 100%; background: #f2f2f2; color: #5b5b5b; font-size: 0.95em; font-weight: 900; text-align: center; padding: 5px 1px; line-height: 1.1; box-sizing: border-box; border: none; }
-.tier-category { width: 100%; color: #fff; font-size: 1.15em; font-weight: 900; text-align: center; padding: 1px 0; border-radius: 0 0 16px 16px; border: none; }
+.tier-charname { width: 100%; background: #f2f2f2; color: #5b5b5b; font-size: 0.95em; font-weight: 900; text-align: center; padding: 5px 1px; line-height: 1.1; box-sizing: border-box; }
+.tier-category { width: 100%; color: #fff; font-size: 1.15em; font-weight: 900; text-align: center; padding: 1px 0; border-radius: 0 0 16px 16px; }
 
 /* スマホ用最適化 */
 @media (max-width: 600px) { 
-    .tier-cards { gap: 52px 12px; justify-content: center; } /* スマホでは中央寄せor左詰めお好みで。一旦中央寄りに見えつつ左から埋まる形に */
+    .tier-table-wrap { padding: 8px; }
+    .tier-cards { 
+        gap: 56px 24px; /* 横の隙間を24pxに拡大(以前は12px) */
+        justify-content: flex-start; /* 左詰めを維持 */
+        padding-left: 12px; /* 左側に少し余裕を持たせる */
+    } 
     .card-shadow-wrapper { width: 96px; } 
     .tier-img-wrap { height: 96px; } 
     .tier-type-line-overlay { top: -12px !important; }
     .tier-type, .tier-line { font-size: 0.65em; width: auto; min-width: 42px; padding: 1px 6px; }
     .tier-stars-top { top: -32px; }
     .tier-stars-top svg { width: 22px; height: 22px; }
-    .tier-element-wrap { width: 24px; height: 24px; bottom: 1px; left: 1px; }
-    .tier-element-wrap .element-diamond-bg { border-radius: 4px; border-width: 1.5px; }
 }
 
-/* モーダル等省略なし */
+/* モーダル等 */
 #skill-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
 .modal-content { background: #fdfaf5; width: 92%; max-width: 550px; border-radius: 28px; padding: 24px; position: relative; max-height: 85vh; overflow-y: auto; }
 .modal-close { position: absolute; top: 16px; right: 20px; font-size: 32px; cursor: pointer; color: #aaa; }
 .modal-header { display: flex; align-items: center; gap: 18px; margin-bottom: 20px; background: #fff; padding: 15px; border-radius: 20px; }
 .modal-header img { width: 70px; height: 70px; border-radius: 15px; object-fit: cover; border: 3px solid #f0f0f0; }
-.skill-box { margin-bottom: 16px; background: #fff; border-radius: 18px; overflow: hidden; border: 1px solid #eee; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+.skill-box { margin-bottom: 16px; background: #fff; border-radius: 18px; overflow: hidden; border: 1px solid #eee; }
 .skill-title-row { background: #f8f9fa; padding: 10px 16px; border-bottom: 2px solid #f0f0f0; display: flex; align-items: center; }
 .skill-label { font-size: 0.75em; background: #666; color: #fff; padding: 2px 10px; border-radius: 6px; margin-right: 10px; white-space: nowrap; }
 .skill-name { font-weight: 900; color: #333; font-size: 1.05em; }
@@ -2036,7 +2037,6 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
         </div></div></div>
 </div>
 <script>
-/* JS部分は変更なし */
 function parseColorTags(text) {
     if (!text) return "";
     let parsed = text.replace(/\\n/g, '<br>').replace(/\n/g, '<br>');
