@@ -38,7 +38,7 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 .tier-card { position: relative; width: 100%; background: #fff; border-radius: 16px; display: flex; flex-direction: column; overflow: hidden; z-index: 10; }
 .tier-img-wrap { position: relative; width: 100%; height: 120px; z-index: 5; }
 .tier-card img.main-char { width: 100%; height: 100%; object-fit: cover; display: block; }
-.tier-type, .tier-line { color: #fff; font-size: 0.75em; font-weight: 900; border-radius: 30px; padding: 1px 0; width: 58px; text-align: center; display: inline-block; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+.tier-type, .tier-line { color: #fff; font-size: 0.75em; font-weight: 900; border-radius: 30px; padding: 1px 0; width: 58px; text-align: center; display: inline-block; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); white-space: nowrap; }
 .tier-element-wrap { position: absolute; bottom: 2px; left: 2px; width: 42px; height: 42px; z-index: 110; display: flex; align-items: center; justify-content: center; }
 .tier-element-wrap .element-diamond-bg { position: absolute; width: 75%; height: 75%; border-radius: 7px; transform: rotate(45deg); border: 2px solid #fff; }
 .tier-charname { width: 100%; background: #f2f2f2; color: #5b5b5b; font-size: 0.95em; font-weight: 900; text-align: center; padding: 4px 1px; line-height: 1.1; }
@@ -58,7 +58,16 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 .skill-body { padding: 14px 16px; font-size: 0.92em; line-height: 1.6; color: #555; }
 .skill-footer { margin-top: 10px; padding-top: 8px; border-top: 1px dashed #eee; display: flex; gap: 15px; font-size: 0.85em; color: #ff5606; font-weight: 900; }
 
-@media (max-width: 600px) { .card-shadow-wrapper { width: 96px; } .tier-img-wrap { height: 96px; } }
+/* モバイル最適化修正 */
+@media (max-width: 600px) { 
+    .card-shadow-wrapper { width: 96px; } 
+    .tier-img-wrap { height: 96px; } 
+    /* タイプ・ラインの文字縮小と改行防止 */
+    .tier-type, .tier-line { font-size: 0.65em; width: auto; min-width: 42px; padding: 1px 4px; }
+    /* エレメントアイコンを半分に縮小 */
+    .tier-element-wrap { width: 24px; height: 24px; bottom: 1px; left: 1px; }
+    .tier-element-wrap .element-diamond-bg { border-radius: 4px; border-width: 1.5px; }
+}
 </style>
 </head>
 <body>
@@ -2018,7 +2027,6 @@ function parseColorTags(text) {
 
 function openModal(data) {
     const body = document.getElementById('modal-body');
-    // ★ヘッダー部分を修正：nameの隣に[nickname]を表示
     let skillHtml = `
         <div class="modal-header">
             <img src="${data.img}">
