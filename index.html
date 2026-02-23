@@ -25,30 +25,35 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 .btn-element-wrap .element-diamond-bg { position: absolute; width: 85%; height: 85%; border-radius: 5px; transform: rotate(45deg); }
 .element-icon { position: relative; width: 70%; height: 70%; z-index: 6; object-fit: contain; filter: brightness(0) invert(1); }
 
-/* カード */
-.tier-row { display: flex; flex-direction: column; margin-bottom: 48px; } /* 上下の余白を増加 */
-.tier-label { width: 100%; font-weight: 900; font-size: 1.4em; background: #555; color: #fff; border-radius: 8px; margin-bottom: 12px; padding: 6px 16px; border-left: 8px solid #333; box-sizing: border-box; }
-.tier-cards { display: flex; flex-wrap: wrap; gap: 24px 16px; justify-content: space-around; padding-top: 50px; } /* 等間隔配置に変更し、上部の余白を確保 */
-
-.card-shadow-wrapper { position: relative; width: 120px; filter: drop-shadow(0 6px 0 rgba(0,0,0,0.5)); opacity: 0; transition: transform 0.2s, opacity 0.5s; cursor: pointer; }
+/* カード本体の影設定 */
+.card-shadow-wrapper { position: relative; width: 120px; filter: drop-shadow(0 6px 0 rgba(0,0,0,0.4)); opacity: 0; transition: transform 0.2s, opacity 0.5s; cursor: pointer; }
 .card-shadow-wrapper.reveal { opacity: 1; }
 .card-shadow-wrapper:hover { transform: scale(1.05); z-index: 1000; }
 
-.tier-stars-top { position: absolute; top: -16px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 70; pointer-events: none; }
-.tier-stars-top svg { width: 28px; height: 28px; margin: 0 -4px; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.4)); }
+/* ティア行の調整 */
+.tier-row { display: flex; flex-direction: column; margin-bottom: 60px; } /* 間隔をさらに広げた */
+.tier-label { width: 100%; font-weight: 900; font-size: 1.4em; background: #555; color: #fff; border-radius: 8px; margin-bottom: 12px; padding: 6px 16px; border-left: 8px solid #333; box-sizing: border-box; }
+.tier-cards { display: flex; flex-wrap: wrap; gap: 32px 16px; justify-content: space-around; padding-top: 60px; } /* 上下の隙間をさらに確保 */
 
-.tier-card { position: relative; width: 100%; background: #fff; border-radius: 16px; display: flex; flex-direction: column; overflow: visible; z-index: 10; }
+/* 星の設定 */
+.tier-stars-top { position: absolute; top: -18px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 70; pointer-events: none; }
+.tier-stars-top svg { width: 28px; height: 28px; margin: 0 -4px; } /* 影はSVGフィルタ側で制御 */
+
+/* カード内部 */
+.tier-card { position: relative; width: 100%; background: #fff; border-radius: 16px; display: flex; flex-direction: column; overflow: visible; z-index: 10; box-shadow: none; }
 .tier-img-wrap { position: relative; width: 100%; height: 120px; z-index: 5; border-radius: 16px 16px 0 0; overflow: hidden; }
 .tier-img-wrap img.main-char { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-/* PC版バッジ設定 */
+/* バッジの影なし設定 */
 .tier-type-line-overlay { display: flex; gap: 2px; position: absolute; top: 4px; width: 100%; z-index: 60; }
-.tier-type, .tier-line { color: #fff; font-size: 0.75em; font-weight: 900; border-radius: 30px; padding: 1px 0; width: 58px; text-align: center; display: inline-block; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+.tier-type, .tier-line { color: #fff; font-size: 0.75em; font-weight: 900; border-radius: 30px; padding: 1px 0; width: 58px; text-align: center; display: inline-block; white-space: nowrap; box-shadow: none; text-shadow: none; }
 
 .tier-element-wrap { position: absolute; bottom: 2px; left: 2px; width: 42px; height: 42px; z-index: 110; display: flex; align-items: center; justify-content: center; }
 .tier-element-wrap .element-diamond-bg { position: absolute; width: 75%; height: 75%; border-radius: 7px; transform: rotate(45deg); border: 2px solid #fff; }
-.tier-charname { width: 100%; background: #f2f2f2; color: #5b5b5b; font-size: 0.95em; font-weight: 900; text-align: center; padding: 4px 1px; line-height: 1.1; }
-.tier-category { width: 100%; color: #fff; font-size: 1.15em; font-weight: 900; text-align: center; padding: 1px 0; border-radius: 0 0 16px 16px; }
+
+/* 名前とカテゴリー（影を排除） */
+.tier-charname { width: 100%; background: #f2f2f2; color: #5b5b5b; font-size: 0.95em; font-weight: 900; text-align: center; padding: 5px 1px; line-height: 1.1; box-sizing: border-box; border: none; }
+.tier-category { width: 100%; color: #fff; font-size: 1.15em; font-weight: 900; text-align: center; padding: 1px 0; border-radius: 0 0 16px 16px; border: none; }
 
 /* スマホ用最適化 */
 @media (max-width: 600px) { 
@@ -56,7 +61,7 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
     .tier-img-wrap { height: 96px; } 
     .tier-type-line-overlay { top: -12px !important; }
     .tier-type, .tier-line { font-size: 0.65em; width: auto; min-width: 42px; padding: 1px 6px; }
-    .tier-stars-top { top: -30px; }
+    .tier-stars-top { top: -32px; }
     .tier-stars-top svg { width: 22px; height: 22px; }
     .tier-element-wrap { width: 24px; height: 24px; bottom: 1px; left: 1px; }
     .tier-element-wrap .element-diamond-bg { border-radius: 4px; border-width: 1.5px; }
@@ -84,7 +89,7 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
       <stop offset="0%" stop-color="#FFD700"/><stop offset="50%" stop-color="#FFFACD"/><stop offset="100%" stop-color="#FFA500"/>
     </linearGradient>
     <filter id="star-shadow" x="-50%" y="-50%" width="200%" height="200%">
-      <feOffset dx="0.5" dy="0.5" /> <feGaussianBlur stdDeviation="0.5" /><feComponentTransfer><feFuncA type="linear" slope="0.6"/></feComponentTransfer>
+      <feOffset dx="0.3" dy="0.3" /> <feGaussianBlur stdDeviation="0.4" /><feComponentTransfer><feFuncA type="linear" slope="0.7"/></feComponentTransfer>
       <feBlend in="SourceGraphic" mode="normal" />
     </filter>
   </defs>
