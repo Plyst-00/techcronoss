@@ -30,14 +30,20 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 .card-shadow-wrapper.reveal { opacity: 1; }
 .card-shadow-wrapper:hover { transform: scale(1.05); z-index: 1000; }
 
-/* ティア行の調整 */
-.tier-row { display: flex; flex-direction: column; margin-bottom: 60px; } /* 間隔をさらに広げた */
+/* ティア行の調整：左詰め配置に変更 */
+.tier-row { display: flex; flex-direction: column; margin-bottom: 60px; }
 .tier-label { width: 100%; font-weight: 900; font-size: 1.4em; background: #555; color: #fff; border-radius: 8px; margin-bottom: 12px; padding: 6px 16px; border-left: 8px solid #333; box-sizing: border-box; }
-.tier-cards { display: flex; flex-wrap: wrap; gap: 32px 16px; justify-content: space-around; padding-top: 60px; } /* 上下の隙間をさらに確保 */
+.tier-cards { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 48px 18px; /* 上下の間隔を広めに確保(48px) */
+    justify-content: flex-start; /* 左詰めに変更 */
+    padding: 60px 10px 20px; 
+} 
 
 /* 星の設定 */
 .tier-stars-top { position: absolute; top: -18px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 70; pointer-events: none; }
-.tier-stars-top svg { width: 28px; height: 28px; margin: 0 -4px; } /* 影はSVGフィルタ側で制御 */
+.tier-stars-top svg { width: 28px; height: 28px; margin: 0 -4px; }
 
 /* カード内部 */
 .tier-card { position: relative; width: 100%; background: #fff; border-radius: 16px; display: flex; flex-direction: column; overflow: visible; z-index: 10; box-shadow: none; }
@@ -51,12 +57,13 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 .tier-element-wrap { position: absolute; bottom: 2px; left: 2px; width: 42px; height: 42px; z-index: 110; display: flex; align-items: center; justify-content: center; }
 .tier-element-wrap .element-diamond-bg { position: absolute; width: 75%; height: 75%; border-radius: 7px; transform: rotate(45deg); border: 2px solid #fff; }
 
-/* 名前とカテゴリー（影を排除） */
+/* 名前とカテゴリー */
 .tier-charname { width: 100%; background: #f2f2f2; color: #5b5b5b; font-size: 0.95em; font-weight: 900; text-align: center; padding: 5px 1px; line-height: 1.1; box-sizing: border-box; border: none; }
 .tier-category { width: 100%; color: #fff; font-size: 1.15em; font-weight: 900; text-align: center; padding: 1px 0; border-radius: 0 0 16px 16px; border: none; }
 
 /* スマホ用最適化 */
 @media (max-width: 600px) { 
+    .tier-cards { gap: 52px 12px; justify-content: center; } /* スマホでは中央寄せor左詰めお好みで。一旦中央寄りに見えつつ左から埋まる形に */
     .card-shadow-wrapper { width: 96px; } 
     .tier-img-wrap { height: 96px; } 
     .tier-type-line-overlay { top: -12px !important; }
@@ -67,7 +74,7 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
     .tier-element-wrap .element-diamond-bg { border-radius: 4px; border-width: 1.5px; }
 }
 
-/* モーダル等 */
+/* モーダル等省略なし */
 #skill-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
 .modal-content { background: #fdfaf5; width: 92%; max-width: 550px; border-radius: 28px; padding: 24px; position: relative; max-height: 85vh; overflow-y: auto; }
 .modal-close { position: absolute; top: 16px; right: 20px; font-size: 32px; cursor: pointer; color: #aaa; }
@@ -89,7 +96,8 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
       <stop offset="0%" stop-color="#FFD700"/><stop offset="50%" stop-color="#FFFACD"/><stop offset="100%" stop-color="#FFA500"/>
     </linearGradient>
     <filter id="star-shadow" x="-50%" y="-50%" width="200%" height="200%">
-      <feOffset dx="0.3" dy="0.3" /> <feGaussianBlur stdDeviation="0.4" /><feComponentTransfer><feFuncA type="linear" slope="0.7"/></feComponentTransfer>
+      <feOffset dx="0.3" dy="0.3" />
+      <feGaussianBlur stdDeviation="0.4" /><feComponentTransfer><feFuncA type="linear" slope="0.7"/></feComponentTransfer>
       <feBlend in="SourceGraphic" mode="normal" />
     </filter>
   </defs>
@@ -2028,6 +2036,7 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
         </div></div></div>
 </div>
 <script>
+/* JS部分は変更なし */
 function parseColorTags(text) {
     if (!text) return "";
     let parsed = text.replace(/\\n/g, '<br>').replace(/\n/g, '<br>');
@@ -2035,60 +2044,26 @@ function parseColorTags(text) {
     parsed = parsed.replace(/<\/color>/g, '</span>');
     return parsed;
 }
-
 function openModal(data) {
     const body = document.getElementById('modal-body');
-    let skillHtml = `
-        <div class="modal-header">
-            <img src="${data.img}">
-            <div>
-                <div style="font-size:1.3em; font-weight:900; color:#333;">
-                    ${data.name} <span style="font-size:0.7em; color:#888; margin-left:4px;">[${data.nickname || ""}]</span>
-                </div>
-                <div style="font-size:0.8em; color:#999; letter-spacing:1px;">CHARACTER DETAILS</div>
-            </div>
-        </div>
-    `;
+    let skillHtml = `<div class="modal-header"><img src="${data.img}"><div><div style="font-size:1.3em; font-weight:900; color:#333;">${data.name} <span style="font-size:0.7em; color:#888; margin-left:4px;">[${data.nickname || ""}]</span></div><div style="font-size:0.8em; color:#999; letter-spacing:1px;">CHARACTER DETAILS</div></div></div>`;
     data.skills.forEach(s => {
         if(!s.name || s.name === "-") return;
         const formattedDesc = parseColorTags(s.desc);
-        let ctDisplay = "";
-        if (s.ct && s.ct !== "-") {
-            const ctNum = parseFloat(s.ct);
-            ctDisplay = isNaN(ctNum) ? s.ct : ctNum.toFixed(1);
-        }
-        skillHtml += `
-            <div class="skill-box">
-                <div class="skill-title-row">
-                    <span class="skill-label" style="background:${getLabelColor(s.label)}">${s.label}</span>
-                    <span class="skill-name">${s.name}</span>
-                </div>
-                <div class="skill-body">
-                    <div>${formattedDesc}</div>
-                    ${(ctDisplay || s.use) ? `
-                    <div class="skill-footer">
-                        ${ctDisplay ? `<span>⏱ クールタイム: ${ctDisplay}</span>` : ''}
-                        ${(s.use && s.use !== "-") ? `<span>🔄 使用回数: ${s.use}</span>` : ''}
-                    </div>` : ''}
-                </div>
-            </div>
-        `;
+        let ctDisplay = (s.ct && s.ct !== "-") ? (isNaN(parseFloat(s.ct)) ? s.ct : parseFloat(s.ct).toFixed(1)) : "";
+        skillHtml += `<div class="skill-box"><div class="skill-title-row"><span class="skill-label" style="background:${getLabelColor(s.label)}">${s.label}</span><span class="skill-name">${s.name}</span></div><div class="skill-body"><div>${formattedDesc}</div>${(ctDisplay || s.use) ? `<div class="skill-footer">${ctDisplay ? `<span>⏱ クールタイム: ${ctDisplay}</span>` : ''}${(s.use && s.use !== "-") ? `<span>🔄 使用回数: ${s.use}</span>` : ''}</div>` : ''}</div></div>`;
     });
     body.innerHTML = skillHtml;
     document.getElementById('skill-modal').style.display = 'flex';
 }
-
 function getLabelColor(label) {
     if(label === 'スペシャル') return '#ff205d';
     if(label === 'アシスト') return '#0072ff';
     if(label === 'パッシブ') return '#666';
     return '#ff880a';
 }
-
 function closeModal() { document.getElementById('skill-modal').style.display = 'none'; }
-
 const currentFilters = { element: null, category: null, type: null, line: null };
-
 function toggleFilter(btn) {
     const type = btn.getAttribute('data-type');
     const value = btn.getAttribute('data-value');
@@ -2098,28 +2073,22 @@ function toggleFilter(btn) {
     });
     applyFilter();
 }
-
 function applyFilter() {
     const searchQuery = document.getElementById('search-box').value.toLowerCase();
-    
     document.querySelectorAll('.card-shadow-wrapper').forEach(card => {
         const mEl = !currentFilters.element || card.getAttribute('data-element') === currentFilters.element;
         const mCa = !currentFilters.category || card.getAttribute('data-category') === currentFilters.category;
         const mTy = !currentFilters.type || card.getAttribute('data-type') === currentFilters.type;
         const mLi = !currentFilters.line || card.getAttribute('data-line') === currentFilters.line;
-        
         const searchTarget = card.getAttribute('data-search').toLowerCase();
         const mSearch = !searchQuery || searchTarget.includes(searchQuery);
-
         card.style.display = (mEl && mCa && mTy && mLi && mSearch) ? '' : 'none';
     });
-
     document.querySelectorAll('.tier-row').forEach(row => {
         const hasVisibleCard = Array.from(row.querySelectorAll('.card-shadow-wrapper')).some(c => c.style.display !== 'none');
         row.style.display = hasVisibleCard ? '' : 'none';
     });
 }
-
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('reveal'); observer.unobserve(entry.target); } });
 }, { threshold: 0.1 });
