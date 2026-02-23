@@ -302,51 +302,130 @@
     border-radius: 0 0 16px 16px;
 }
 
+/* ---------- スマホ最適化（強化版） ---------- */
 @media (max-width: 600px) {
     .tier-swell-fix {
         padding: 8px;
     }
+    .tier-swell-fix .filter-container {
+        padding: 12px;
+    }
+    .tier-swell-fix .filter-row {
+        flex-direction: column;
+        gap: 16px;
+    }
+    .tier-swell-fix .filter-buttons {
+        gap: 6px;
+    }
+    .tier-swell-fix .filter-btn {
+        padding: 8px 12px;
+        font-size: 0.85em !important;
+        flex: 0 1 auto;
+    }
+    .tier-swell-fix .btn-element-wrap {
+        width: 20px;
+        height: 20px;
+    }
     .tier-swell-fix .tier-cards {
-        gap: 56px 24px;
+        gap: 40px 12px;
         justify-content: center;
-        padding: 60px 0 20px;
+        padding: 50px 0 20px;
     }
     .tier-swell-fix .card-shadow-wrapper {
-        width: 96px !important;
+        width: 90px !important;
     }
     .tier-swell-fix .tier-img-wrap {
-        height: 96px;
+        height: 90px;
     }
     .tier-swell-fix .tier-type-line-overlay {
         top: -12px !important;
+        gap: 1px;
     }
     .tier-swell-fix .tier-type,
     .tier-swell-fix .tier-line {
-        font-size: 0.65em;
-        width: auto !important;
-        min-width: 42px;
-        padding: 1px 6px;
+        font-size: 0.6em;
+        min-width: 36px;
+        padding: 1px 4px;
     }
     .tier-swell-fix .tier-stars-top {
-        top: -32px;
+        top: -28px;
     }
     .tier-swell-fix .tier-stars-top svg {
-        width: 22px;
-        height: 22px;
+        width: 18px;
+        height: 18px;
+        margin: 0 -3px;
     }
     .tier-swell-fix .tier-element-wrap {
-        width: 21px;
-        height: 21px;
+        width: 20px;
+        height: 20px;
         bottom: 1px;
         left: 1px;
     }
     .tier-swell-fix .tier-element-wrap .element-diamond-bg {
         border-radius: 4px;
-        border-width: 1.5px;
+        border-width: 1px;
+    }
+    .tier-swell-fix .tier-charname {
+        font-size: 0.75em;
+        padding: 3px 1px;
+    }
+    .tier-swell-fix .tier-category {
+        font-size: 0.85em;
+        padding: 2px 0;
     }
     .tier-swell-fix .tier-label {
         font-size: 1.2em;
+        padding: 6px 12px;
+        top: 0; /* 固定ヘッダーがある場合は適宜調整 */
+    }
+
+    /* モーダルのスマホ最適化 */
+    .tier-swell-fix .modal-content {
+        width: 95%;
+        padding: 16px;
+        max-height: 80vh;
+    }
+    .tier-swell-fix .modal-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 12px;
+    }
+    .tier-swell-fix .modal-header img {
+        width: 60px;
+        height: 60px;
+    }
+    .tier-swell-fix .skill-title-row {
         padding: 8px 12px;
+    }
+    .tier-swell-fix .skill-name {
+        font-size: 0.95em;
+    }
+    .tier-swell-fix .skill-body {
+        padding: 10px 12px;
+        font-size: 0.85em;
+    }
+    .tier-swell-fix .skill-footer {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+}
+
+/* より小さな画面向け */
+@media (max-width: 380px) {
+    .tier-swell-fix .card-shadow-wrapper {
+        width: 80px !important;
+    }
+    .tier-swell-fix .tier-img-wrap {
+        height: 80px;
+    }
+    .tier-swell-fix .tier-type,
+    .tier-swell-fix .tier-line {
+        font-size: 0.55em;
+        min-width: 32px;
+    }
+    .tier-swell-fix .tier-charname {
+        font-size: 0.7em;
     }
 }
 
@@ -526,6 +605,10 @@ function buildFilterButtons(cards) {
     const elementContainer = document.getElementById('filter-element');
     const typeContainer = document.getElementById('filter-type');
 
+    // 既存のボタンをクリア
+    elementContainer.innerHTML = '';
+    typeContainer.innerHTML = '';
+
     elements.forEach(e => {
         const btn = document.createElement('button');
         btn.className = 'filter-btn';
@@ -555,7 +638,7 @@ function buildFilterButtons(cards) {
 function renderCards(cards) {
     const container = document.getElementById('tier-table');
     container.innerHTML = '';
-    const tiers = [...new Set(cards.map(c => c.tier))].sort();
+    const tiers = [...new Set(cards.map(c => c.tier))].sort((a, b) => a - b);
     tiers.forEach(tier => {
         const tierCards = cards.filter(c => c.tier === tier);
         const rowDiv = document.createElement('div');
@@ -666,7 +749,7 @@ function applyFilter() {
     });
 }
 
-// 初期化：JSON読み込み
+// 初期化：JSON読み込み（REST APIエンドポイント）
 fetch('https://meister.knowhow.jp/wp-json/custom/v1/tier-cards')
     .then(response => {
         if (!response.ok) {
