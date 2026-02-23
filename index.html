@@ -667,12 +667,12 @@ function applyFilter() {
 }
 
 // 初期化：JSON読み込み
-fetch('https://meister.knowhow.jp/wp-content/uploads/techcronoss_data-1.json')
-    .then(res => {
-        if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
+fetch('https://meister.knowhow.jp/wp-json/custom/v1/tier-cards')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return res.json();
+        return response.json();
     })
     .then(data => {
         allCards = data;
@@ -680,7 +680,7 @@ fetch('https://meister.knowhow.jp/wp-content/uploads/techcronoss_data-1.json')
         renderCards(allCards);
     })
     .catch(err => {
-        console.error('JSON読み込みエラー詳細:', err);
-        document.getElementById('tier-table').innerHTML = '<p style="color:red;">データ読み込みに失敗しました。詳細はコンソールを確認してください。</p>';
+        console.error('API読み込みエラー詳細:', err);
+        document.getElementById('tier-table').innerHTML = '<p style="color:red;">データ読み込みに失敗しました。</p>';
     });
 </script>
