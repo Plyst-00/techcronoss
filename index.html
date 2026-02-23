@@ -32,7 +32,26 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 
 /* ティア行 */
 .tier-row { display: flex; flex-direction: column; margin-bottom: 60px; }
-.tier-label { width: 100%; font-weight: 900; font-size: 1.4em; background: #555; color: #fff; border-radius: 8px; margin-bottom: 12px; padding: 6px 16px; border-left: 8px solid #333; box-sizing: border-box; }
+
+/* Tierラベルを上に固定 */
+.tier-label { 
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    width: 100%; 
+    font-weight: 900; 
+    font-size: 1.4em; 
+    background: #555; 
+    color: #fff; 
+    border-radius: 8px; 
+    margin-bottom: 12px; 
+    padding: 6px 16px; 
+    border-left: 8px solid #333; 
+    box-sizing: border-box;
+    z-index: 500; /* カードより上、モーダルより下 */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
 .tier-cards { 
     display: flex; 
     flex-wrap: wrap; 
@@ -64,8 +83,8 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
     .tier-table-wrap { padding: 8px; }
     .tier-cards { 
         gap: 56px 24px; 
-        justify-content: center; /* 左寄せから中央寄せに変更 */
-        padding: 60px 0 20px; /* パディングを左右均等（0）に */
+        justify-content: center; 
+        padding: 60px 0 20px; 
     } 
     .card-shadow-wrapper { width: 96px; } 
     .tier-img-wrap { height: 96px; } 
@@ -74,7 +93,6 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
     .tier-stars-top { top: -32px; }
     .tier-stars-top svg { width: 22px; height: 22px; }
     
-    /* エレメントアイコンのサイズを半分（42px -> 21px）に */
     .tier-element-wrap { 
         width: 21px; 
         height: 21px; 
@@ -82,6 +100,9 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
         left: 1px; 
     }
     .tier-element-wrap .element-diamond-bg { border-radius: 4px; border-width: 1.5px; }
+
+    /* スマホで見出しのフォントサイズを微調整 */
+    .tier-label { font-size: 1.2em; padding: 8px 12px; }
 }
 
 /* モーダル等省略なし */
@@ -128,7 +149,7 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 
         <div class="filter-row">
             <div class="filter-group">
-                <div class="filter-label">✧ エレメント ✧</div>
+                <div class="filter-label" style="position:static; background:transparent; color:#888; border:none; box-shadow:none;">✧ エレメント ✧</div>
                 <div class="filter-buttons">
 <button class="filter-btn" data-type="element" data-value="宙" onclick="toggleFilter(this)">
         <div class="btn-element-wrap">
@@ -170,7 +191,7 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
                 </div>
             </div>
             <div class="filter-group">
-                <div class="filter-label">✧ カテゴリー ✧</div>
+                <div class="filter-label" style="position:static; background:transparent; color:#888; border:none; box-shadow:none;">✧ カテゴリー ✧</div>
                 <div class="filter-buttons">
                     <button class="filter-btn" data-type="category" data-value="BATTLE" onclick="toggleFilter(this)">BATTLE</button>
                     <button class="filter-btn" data-type="category" data-value="ASSIST" onclick="toggleFilter(this)">ASSIST</button>
@@ -179,13 +200,13 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
         </div>
         <div class="filter-row">
             <div class="filter-group">
-                <div class="filter-label">✧ タイプ ✧</div>
+                <div class="filter-label" style="position:static; background:transparent; color:#888; border:none; box-shadow:none;">✧ タイプ ✧</div>
                 <div class="filter-buttons">
 <button class="filter-btn" data-type="type" data-value="サポート" onclick="toggleFilter(this)">サポート</button><button class="filter-btn" data-type="type" data-value="トリック" onclick="toggleFilter(this)">トリック</button><button class="filter-btn" data-type="type" data-value="パワフル" onclick="toggleFilter(this)">パワフル</button><button class="filter-btn" data-type="type" data-value="ヒール" onclick="toggleFilter(this)">ヒール</button><button class="filter-btn" data-type="type" data-value="ブレイク" onclick="toggleFilter(this)">ブレイク</button>
                 </div>
             </div>
             <div class="filter-group">
-                <div class="filter-label">✧ ライン ✧</div>
+                <div class="filter-label" style="position:static; background:transparent; color:#888; border:none; box-shadow:none;">✧ ライン ✧</div>
                 <div class="filter-buttons">
                     <button class="filter-btn" data-type="line" data-value="前衛" onclick="toggleFilter(this)">前衛</button>
                     <button class="filter-btn" data-type="line" data-value="後衛" onclick="toggleFilter(this)">後衛</button>
