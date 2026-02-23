@@ -1,4 +1,10 @@
-<!-- Swellテーマ競合対策＋外部JSON版 -->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tier表（完全版）</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&display=swap" rel="stylesheet">
 <style>
 /* 全体的なリセット：このブロック内でのみ有効 */
 .tier-swell-fix *,
@@ -42,6 +48,7 @@
     outline: none;
 }
 
+/* 検索・フィルター */
 .tier-swell-fix .filter-container {
     margin-bottom: 20px;
     background: #fff;
@@ -302,6 +309,7 @@
     border-radius: 0 0 16px 16px;
 }
 
+/* ---------- スマホ最適化（旧書式完全再現） ---------- */
 @media (max-width: 600px) {
     .tier-swell-fix {
         padding: 8px;
@@ -328,12 +336,12 @@
 
     /* カードを中央寄せ・3列に */
     .tier-swell-fix .tier-cards {
-        justify-content: center;
-        gap: 56px 24px;           /* 旧書式と同じ */
-        padding: 60px 0 20px;
+        gap: 56px 24px !important;
+        justify-content: center !important;
+        padding: 60px 0 20px !important;
     }
     .tier-swell-fix .card-shadow-wrapper {
-        width: 96px !important;    /* スマホサイズに固定 */
+        width: 96px !important;
     }
     .tier-swell-fix .tier-img-wrap {
         height: 96px;
@@ -366,7 +374,7 @@
         border-width: 1.5px;
     }
     .tier-swell-fix .tier-charname {
-        font-size: 0.8em;           /* 旧書式に近づける */
+        font-size: 0.8em;
         padding: 3px 1px;
     }
     .tier-swell-fix .tier-category {
@@ -376,10 +384,9 @@
     .tier-swell-fix .tier-label {
         font-size: 1.2em;
         padding: 8px 12px;
-        top: 0;                     /* 固定ヘッダーがある場合は調整 */
     }
 
-    /* モーダルのスマホ最適化（任意） */
+    /* モーダルのスマホ最適化 */
     .tier-swell-fix .modal-content {
         width: 95%;
         padding: 16px;
@@ -395,6 +402,7 @@
     }
 }
 
+/* モーダル基本スタイル */
 .tier-swell-fix #skill-modal {
     display: none;
     position: fixed;
@@ -498,6 +506,8 @@
     font-weight: 900;
 }
 </style>
+</head>
+<body>
 
 <svg width="0" height="0" style="position:absolute;">
   <defs>
@@ -557,34 +567,32 @@
 </div>
 
 <script>
-// データ取得と描画
+// データ取得と描画（前回と同じ）
 let allCards = [];
 const CAT_COLORS = {"BATTLE": "#fe1b76", "ASSIST": "#0072ff"};
 const TYPE_COLORS = {"ヒール": "#3cbe00", "パワフル": "#ff205d", "サポート": "#ff5606", "ブレイク": "#2372ff", "トリック": "#922efe"};
 const LINE_COLORS = {"前衛": "#30a6fa", "後衛": "#fa19bd", "前/後": "linear-gradient(to right, #ef25c9, #2597fd)"};
 let currentFilters = { element: null, category: null, type: null, line: null };
 
-// フィルターボタンの動的生成（エレメント・タイプはJSONから得る）
 function buildFilterButtons(cards) {
     const elements = [...new Set(cards.map(c => c.element))];
     const types = [...new Set(cards.map(c => c.type))];
     const elementContainer = document.getElementById('filter-element');
     const typeContainer = document.getElementById('filter-type');
-
+    elementContainer.innerHTML = '';
+    typeContainer.innerHTML = '';
     elements.forEach(e => {
         const btn = document.createElement('button');
         btn.className = 'filter-btn';
         btn.setAttribute('data-type', 'element');
         btn.setAttribute('data-value', e);
         btn.onclick = function() { toggleFilter(this); };
-        // エレメントアイコン付きボタン
         const cardSample = cards.find(c => c.element === e);
         const color = cardSample ? cardSample.element_color : '#888';
         const imgUrl = cardSample ? cardSample.element_img : '';
         btn.innerHTML = `<div class="btn-element-wrap"><div class="element-diamond-bg" style="background:${color};"></div><img src="${imgUrl}" class="element-icon" alt="${e}"></div>${e}`;
         elementContainer.appendChild(btn);
     });
-
     types.forEach(t => {
         const btn = document.createElement('button');
         btn.className = 'filter-btn';
@@ -596,11 +604,10 @@ function buildFilterButtons(cards) {
     });
 }
 
-// カード描画
 function renderCards(cards) {
     const container = document.getElementById('tier-table');
     container.innerHTML = '';
-    const tiers = [...new Set(cards.map(c => c.tier))].sort();
+    const tiers = [...new Set(cards.map(c => c.tier))].sort((a, b) => a - b);
     tiers.forEach(tier => {
         const tierCards = cards.filter(c => c.tier === tier);
         const rowDiv = document.createElement('div');
@@ -643,15 +650,12 @@ function renderCards(cards) {
         });
         container.appendChild(rowDiv);
     });
-
-    // 監視再設定
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('reveal'); observer.unobserve(entry.target); } });
     }, { threshold: 0.1 });
     document.querySelectorAll('.card-shadow-wrapper').forEach(card => observer.observe(card));
 }
 
-// モーダル表示（ID指定）
 function openModal(cardId) {
     const card = allCards.find(c => c.id === cardId);
     if (!card) return;
@@ -711,7 +715,7 @@ function applyFilter() {
     });
 }
 
-// 初期化：JSON読み込み
+// 初期化：JSON読み込み（REST APIエンドポイント）
 fetch('https://meister.knowhow.jp/wp-json/custom/v1/tier-cards')
     .then(response => {
         if (!response.ok) {
@@ -729,3 +733,5 @@ fetch('https://meister.knowhow.jp/wp-json/custom/v1/tier-cards')
         document.getElementById('tier-table').innerHTML = '<p style="color:red;">データ読み込みに失敗しました。</p>';
     });
 </script>
+</body>
+</html>
