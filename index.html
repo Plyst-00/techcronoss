@@ -28,52 +28,53 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 /* カード */
 .tier-row { display: flex; flex-direction: column; margin-bottom: 32px; }
 .tier-label { width: 100%; font-weight: 900; font-size: 1.4em; background: #555; color: #fff; border-radius: 8px; margin-bottom: 12px; padding: 6px 16px; border-left: 8px solid #333; }
-.tier-cards { display: flex; flex-wrap: wrap; gap: 16px; justify-content: flex-start; padding-top: 25px; }
+.tier-cards { display: flex; flex-wrap: wrap; gap: 16px; justify-content: flex-start; padding-top: 40px; } /* 星とバッジのスペース確保 */
+
 .card-shadow-wrapper { position: relative; width: 120px; filter: drop-shadow(0 6px 0 rgba(0,0,0,0.5)); opacity: 0; transition: transform 0.2s, opacity 0.5s; cursor: pointer; }
 .card-shadow-wrapper.reveal { opacity: 1; }
 .card-shadow-wrapper:hover { transform: scale(1.05); z-index: 1000; }
 
-.tier-stars-top { position: absolute; top: -16px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 50; pointer-events: none; }
+.tier-stars-top { position: absolute; top: -16px; left: 0; width: 100%; display: flex; justify-content: center; z-index: 70; pointer-events: none; }
 .tier-stars-top svg { width: 28px; height: 28px; margin: 0 -4px; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.4)); }
-.tier-card { position: relative; width: 100%; background: #fff; border-radius: 16px; display: flex; flex-direction: column; overflow: hidden; z-index: 10; }
-.tier-img-wrap { position: relative; width: 100%; height: 120px; z-index: 5; }
-/* 画像自体の角丸を維持（枠外へのはみ出しを許可するため） */
-.tier-img-wrap img.main-char { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 16px 16px 0 0; }
 
+.tier-card { position: relative; width: 100%; background: #fff; border-radius: 16px; display: flex; flex-direction: column; overflow: visible; z-index: 10; }
+.tier-img-wrap { position: relative; width: 100%; height: 120px; z-index: 5; border-radius: 16px 16px 0 0; overflow: hidden; } /* ここで画像を角丸カット */
+.tier-img-wrap img.main-char { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* PC版バッジ設定 */
+.tier-type-line-overlay { display: flex; gap: 2px; position: absolute; top: 4px; width: 100%; z-index: 60; }
 .tier-type, .tier-line { color: #fff; font-size: 0.75em; font-weight: 900; border-radius: 30px; padding: 1px 0; width: 58px; text-align: center; display: inline-block; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+
 .tier-element-wrap { position: absolute; bottom: 2px; left: 2px; width: 42px; height: 42px; z-index: 110; display: flex; align-items: center; justify-content: center; }
 .tier-element-wrap .element-diamond-bg { position: absolute; width: 75%; height: 75%; border-radius: 7px; transform: rotate(45deg); border: 2px solid #fff; }
 .tier-charname { width: 100%; background: #f2f2f2; color: #5b5b5b; font-size: 0.95em; font-weight: 900; text-align: center; padding: 4px 1px; line-height: 1.1; }
-.tier-category { width: 100%; color: #fff; font-size: 1.15em; font-weight: 900; text-align: center; padding: 1px 0; }
+.tier-category { width: 100%; color: #fff; font-size: 1.15em; font-weight: 900; text-align: center; padding: 1px 0; border-radius: 0 0 16px 16px; }
 
-/* スマホ用はみ出し対応 */
+/* スマホ用最適化 */
 @media (max-width: 600px) { 
     .card-shadow-wrapper { width: 96px; } 
-    .tier-img-wrap { height: 96px; overflow: visible; } 
-    .tier-card { overflow: visible; } /* はみ出しを許可 */
+    .tier-img-wrap { height: 96px; } 
     
-    /* バッジを枠の上に移動 */
+    /* バッジを枠の上にはみ出させる */
     .tier-type-line-overlay { 
-        top: -8px !important; 
-        z-index: 60; 
+        top: -12px !important; 
     }
     .tier-type, .tier-line { 
         font-size: 0.65em; 
         width: auto; 
         min-width: 42px; 
-        padding: 1px 5px; 
+        padding: 1px 6px; 
     }
     
-    /* レアリティ星の位置を少し調整（バッジと被りにくくする） */
-    .tier-stars-top { top: -20px; }
+    /* 星をバッジよりさらに上へ */
+    .tier-stars-top { top: -30px; }
     .tier-stars-top svg { width: 22px; height: 22px; }
 
-    /* エレメント縮小 */
     .tier-element-wrap { width: 24px; height: 24px; bottom: 1px; left: 1px; }
     .tier-element-wrap .element-diamond-bg { border-radius: 4px; border-width: 1.5px; }
 }
 
-/* モーダル等省略... */
+/* モーダル等 */
 #skill-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
 .modal-content { background: #fdfaf5; width: 92%; max-width: 550px; border-radius: 28px; padding: 24px; position: relative; max-height: 85vh; overflow-y: auto; }
 .modal-close { position: absolute; top: 16px; right: 20px; font-size: 32px; cursor: pointer; color: #aaa; }
@@ -191,11 +192,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 自分が後衛のとき自分のパワー<color=#ff0078>+11%</color>(4.5秒)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#3cbe00;">ヒール</span>
+                    <span class='tier-line' style='background:#fa19bd;'>後衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#3cbe00;">ヒール</span>
-                        <span class='tier-line' style='background:#fa19bd;'>後衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003015_amaterasu_aya_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ff880a;"></div>
@@ -218,11 +219,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 自分が後衛のとき自分のSP+2">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#922efe;">トリック</span>
+                    <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#922efe;">トリック</span>
-                        <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003018_oku_kam_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#0067e5;"></div>
@@ -241,11 +242,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 自分が後衛のとき、もう1回ヒールを使用する">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#3cbe00;">ヒール</span>
+                    <span class='tier-line' style='background:#fa19bd;'>後衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#3cbe00;">ヒール</span>
-                        <span class='tier-line' style='background:#fa19bd;'>後衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003020_kukunochi_aya_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ec587b;"></div>
@@ -263,11 +264,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【御利益】スペシャルを使用するたび自分のSP+3(最大+30)御利益の数だけ増加量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#3cbe00;">ヒール</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#3cbe00;">ヒール</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173003016_kukunochi_aya_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ff880a;"></div>
@@ -286,11 +287,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (敵が1体のとき)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#ff205d;">パワフル</span>
+                    <span class='tier-line' style='background:#30a6fa;'>前衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff205d;">パワフル</span>
-                        <span class='tier-line' style='background:#30a6fa;'>前衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153002003_yamatotakeru_leg_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ff880a;"></div>
@@ -308,11 +309,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (自分が前衛のとき)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#ff205d;">パワフル</span>
+                    <span class='tier-line' style='background:#30a6fa;'>前衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff205d;">パワフル</span>
-                        <span class='tier-line' style='background:#30a6fa;'>前衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153002004_asa_leg_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ec587b;"></div>
@@ -330,11 +331,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (自分のバフの数だけダメージ+20%)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#ff205d;">パワフル</span>
+                    <span class='tier-line' style='background:#30a6fa;'>前衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff205d;">パワフル</span>
-                        <span class='tier-line' style='background:#30a6fa;'>前衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003002_deiaborosu_kam_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#1dc3e7;"></div>
@@ -353,11 +354,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 自分のパワー<color=#ff0078>+11%</color>(5.4秒)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#ff205d;">パワフル</span>
+                    <span class='tier-line' style='background:#30a6fa;'>前衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff205d;">パワフル</span>
-                        <span class='tier-line' style='background:#30a6fa;'>前衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003003_ukanomitama_aya_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#b861ef;"></div>
@@ -376,11 +377,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (自分にデバフがないとき)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#922efe;">トリック</span>
+                    <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#922efe;">トリック</span>
-                        <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003006_mikaeru_leg_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#b861ef;"></div>
@@ -399,11 +400,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (対象のネガティブの数だけダメージ+30%)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#ff205d;">パワフル</span>
+                    <span class='tier-line' style='background:#30a6fa;'>前衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff205d;">パワフル</span>
-                        <span class='tier-line' style='background:#30a6fa;'>前衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003008_jikufurito_leg_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#b861ef;"></div>
@@ -423,11 +424,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 自分に<color=#ff0078>6.3%</color>のヒール">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#ff205d;">パワフル</span>
+                    <span class='tier-line' style='background:#30a6fa;'>前衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff205d;">パワフル</span>
-                        <span class='tier-line' style='background:#30a6fa;'>前衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003011_koharu_ori_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ec587b;"></div>
@@ -446,11 +447,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 味方前衛にSP耐性<color=#ff0078>+8%</color>(6.4秒)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#922efe;">トリック</span>
+                    <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#922efe;">トリック</span>
-                        <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003016_gaburieru_leg_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#1dc3e7;"></div>
@@ -468,11 +469,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 対象のネガティブの数だけヒット数+1回(最大3回)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003017_hyupunosu_kam_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#b861ef;"></div>
@@ -490,11 +491,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (対象のネガティブの数だけダメージ+50%、パワー-2%)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    <span class='tier-line' style='background:#30a6fa;'>前衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        <span class='tier-line' style='background:#30a6fa;'>前衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003019_ransurotto_kam_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ec587b;"></div>
@@ -512,11 +513,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (自分のバフの数だけダメージ+10%、自分がポジティブ状態のときダメージ+50%)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    <span class='tier-line' style='background:#30a6fa;'>前衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        <span class='tier-line' style='background:#30a6fa;'>前衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003021_ryofu_leg_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ff880a;"></div>
@@ -535,11 +536,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (発動するたびにダメージ+10％、SP上昇量+2%)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#ff205d;">パワフル</span>
+                    <span class='tier-line' style='background:#30a6fa;'>前衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff205d;">パワフル</span>
-                        <span class='tier-line' style='background:#30a6fa;'>前衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003024_kagutsuchi_aya_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ff880a;"></div>
@@ -556,11 +557,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【御利益】スペシャルを使用するたび自分のSP+3(最大+30)御利益の数だけ増加量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#ff5606;">サポート</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff5606;">サポート</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173002012_izuna_aya_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ff880a;"></div>
@@ -576,11 +577,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 対象が花属性のときSP+10">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#ff5606;">サポート</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff5606;">サポート</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173003005_mirai_ori_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ec587b;"></div>
@@ -597,11 +598,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 最もパワーの高い味方1体のヒット数+1">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#ff5606;">サポート</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff5606;">サポート</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173003009_ukanomitama_aya_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#0067e5;"></div>
@@ -617,11 +618,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (対象のライフが50%以下のときダメージ+100%、敵が1体のときダメージ+100%)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#ff205d;">パワフル</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff205d;">パワフル</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173003012_deiaborosu_kam_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ff880a;"></div>
@@ -638,11 +639,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【信念】編成中の日属性の数だけスキルダメージ+1%(最大120%)信念の数だけ増加量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#ff5606;">サポート</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff5606;">サポート</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173003013_kyukuropusu_kam_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ff880a;"></div>
@@ -659,11 +660,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 味方全体のデバフを1つ解除">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#ff205d;">パワフル</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff205d;">パワフル</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173003014_oku_kam_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#b861ef;"></div>
@@ -681,11 +682,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【信念】編成中の日属性の数だけスキルダメージ+1%(最大120%)信念の数だけ増加量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#ff5606;">サポート</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff5606;">サポート</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173003015_ransurotto_kam_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ff880a;"></div>
@@ -704,11 +705,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 味方前衛にSP上昇量<color=#ff0078>+11%</color>(4.9秒)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#3cbe00;">ヒール</span>
+                    <span class='tier-line' style='background:#fa19bd;'>後衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#3cbe00;">ヒール</span>
-                        <span class='tier-line' style='background:#fa19bd;'>後衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153001001_soru_kam_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ff880a;"></div>
@@ -725,11 +726,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (自分のライフが最大値のとき) 四牙遊影 ランダムに4回<color=#009cff>86%</color>のダメージ">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#ff205d;">パワフル</span>
+                    <span class='tier-line' style='background:#30a6fa;'>前衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff205d;">パワフル</span>
-                        <span class='tier-line' style='background:#30a6fa;'>前衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153001004_yamatanorochi_aya_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ec587b;"></div>
@@ -747,11 +748,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (対象がネガティブ状態のとき)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#ff205d;">パワフル</span>
+                    <span class='tier-line' style='background:#fa19bd;'>後衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff205d;">パワフル</span>
-                        <span class='tier-line' style='background:#fa19bd;'>後衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153002002_arutemisu_kam_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#b861ef;"></div>
@@ -768,11 +769,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (対象のライフが最大値の50%以下のとき)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#ff205d;">パワフル</span>
+                    <span class='tier-line' style='background:#30a6fa;'>前衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff205d;">パワフル</span>
-                        <span class='tier-line' style='background:#30a6fa;'>前衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153002005_asuka_aya_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ff880a;"></div>
@@ -790,11 +791,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 味方前衛に<color=#ff0078>5.8%</color>のヒール">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#3cbe00;">ヒール</span>
+                    <span class='tier-line' style='background:#fa19bd;'>後衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#3cbe00;">ヒール</span>
-                        <span class='tier-line' style='background:#fa19bd;'>後衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153002011_nike_kam_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#1dc3e7;"></div>
@@ -813,11 +814,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (自分が後衛のとき)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#ff5606;">サポート</span>
+                    <span class='tier-line' style='background:#fa19bd;'>後衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff5606;">サポート</span>
-                        <span class='tier-line' style='background:#fa19bd;'>後衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003001_amon_kam_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#1dc3e7;"></div>
@@ -835,11 +836,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 自分が後衛のとき、さらにスキル耐性<color=#ff0078>+5%</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#ff5606;">サポート</span>
+                    <span class='tier-line' style='background:#fa19bd;'>後衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff5606;">サポート</span>
-                        <span class='tier-line' style='background:#fa19bd;'>後衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003007_mirai_ori_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ebc700;"></div>
@@ -857,11 +858,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (自分のライフが最大値の75%以上のとき)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003009_yukine_ori_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#1dc3e7;"></div>
@@ -879,11 +880,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (自分が後衛のとき)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#ff5606;">サポート</span>
+                    <span class='tier-line' style='background:#fa19bd;'>後衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff5606;">サポート</span>
-                        <span class='tier-line' style='background:#fa19bd;'>後衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003010_izuna_aya_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ec587b;"></div>
@@ -900,11 +901,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (自分が後衛のとき)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    <span class='tier-line' style='background:#fa19bd;'>後衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        <span class='tier-line' style='background:#fa19bd;'>後衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003012_kyashi_ori_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#b861ef;"></div>
@@ -922,11 +923,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 自分が後衛の時、パワー<color=#ff0078>+8%</color>(5.4秒)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#ff205d;">パワフル</span>
+                    <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff205d;">パワフル</span>
-                        <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003014_furanka_ori_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ff880a;"></div>
@@ -948,11 +949,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 ランダムな味方にパワー<color=#ff0078>+17%</color>(5.4秒)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#922efe;">トリック</span>
+                    <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#922efe;">トリック</span>
-                        <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003022_miruru_ori_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#1dc3e7;"></div>
@@ -970,11 +971,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (自分が後衛にいるとき)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#922efe;">トリック</span>
+                    <span class='tier-line' style='background:#fa19bd;'>後衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#922efe;">トリック</span>
-                        <span class='tier-line' style='background:#fa19bd;'>後衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003023_aporon_kam_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ff880a;"></div>
@@ -991,11 +992,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【抱擁】スペシャルで攻撃されるたびSP耐性-4%(最大100%)抱擁の数だけ減少量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173002003_yamatanorochi_aya_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ff880a;"></div>
@@ -1012,11 +1013,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【応援】バフが付与されるたびスキルダメージ+1%(最大100%)応援の数だけ増加量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#3cbe00;">ヒール</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#3cbe00;">ヒール</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173002004_soru_kam_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#1dc3e7;"></div>
@@ -1033,11 +1034,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【制圧】スキルで敵にダメージを与えるたび4%のダメージを他の敵に与える(最大40%)制圧の数だけ増加量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#ff5606;">サポート</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff5606;">サポート</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173002008_jannu_leg_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#b861ef;"></div>
@@ -1055,11 +1056,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【悪戯】デバフが付与されるたびSP耐性-1%(最大100%)悪戯の数だけ減少量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173003001_rabii_ori_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#b861ef;"></div>
@@ -1076,11 +1077,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【制圧】スキルで敵にダメージを与えるたび4%のダメージを他の敵に与える(最大40%)制圧の数だけ増加量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#ff5606;">サポート</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff5606;">サポート</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173003002_yamatotakeru_leg_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#b861ef;"></div>
@@ -1097,11 +1098,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【応援】バフが付与されるたびスキルダメージ+1%(最大100%)応援の数だけ増加量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#ff5606;">サポート</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff5606;">サポート</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173003003_jikufurito_leg_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#1dc3e7;"></div>
@@ -1118,11 +1119,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 対象のライフが最大値の75%以下のとき、3秒毎に対象のパワー<color=#ff0078>3.2%</color>分のライフを回復する(18秒)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#922efe;">トリック</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#922efe;">トリック</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173003004_mikaeru_leg_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ebc700;"></div>
@@ -1139,11 +1140,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【圧迫】圧迫の数だけスキル耐性-10%(最大100%)圧迫の数だけ減少量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173003006_yukine_ori_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#b861ef;"></div>
@@ -1161,11 +1162,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【寒気】編成中の雪属性の数だけSP耐性-1%(最大120%)寒気の数だけ減少量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#922efe;">トリック</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#922efe;">トリック</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173003008_raia_ori_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#1dc3e7;"></div>
@@ -1182,11 +1183,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【束縛】1秒に1回、束縛の数だけ合計パワー5%のダメージ(最大50%)束縛の数だけダメージが増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173003010_tsukuyomi_aya_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#1dc3e7;"></div>
@@ -1204,11 +1205,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【元気】ライフを回復するたびスキルダメージ+1%(最大100%)元気の数だけ増加量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#3cbe00;">ヒール</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#3cbe00;">ヒール</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173003011_amaterasu_aya_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ec587b;"></div>
@@ -1226,11 +1227,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【魅惑】編成中の花属性の数だけスキル耐性-1%(最大120%)魅惑の数だけ減少量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#922efe;">トリック</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#922efe;">トリック</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173003017_ryofu_leg_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ec587b;"></div>
@@ -1247,11 +1248,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【やる気】ライフを回復するたびSPダメージ+1%(最大100%)やる気の数だけ増加量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#ff5606;">サポート</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff5606;">サポート</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173003019_aporon_kam_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ec587b;"></div>
@@ -1267,11 +1268,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (対象のライフが最大値の50%以下のとき)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173003020_kagutsuchi_aya_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ec587b;"></div>
@@ -1289,11 +1290,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【応援】バフが付与されるたびスキルダメージ+1%(最大100%)応援の数だけ増加量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#ff5606;">サポート</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff5606;">サポート</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173003021_arutemisu_leg_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#1dc3e7;"></div>
@@ -1310,11 +1311,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 味方前衛にスキル耐性<color=#ff0078>+4%</color>(6.4秒) 慈愛の導き 味方前衛にパワー<color=#ff0078>+16%</color>(7.3秒)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#ff5606;">サポート</span>
+                    <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff5606;">サポート</span>
-                        <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153001002_jannu_leg_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ec587b;"></div>
@@ -1330,11 +1331,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 自分が後衛のとき味方後衛にSP耐性<color=#ff0078>+12%</color>(4.9秒)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#ff5606;">サポート</span>
+                    <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff5606;">サポート</span>
-                        <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153001005_daikokuten_aya_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#1dc3e7;"></div>
@@ -1351,11 +1352,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (自分が後衛のとき)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    <span class='tier-line' style='background:#fa19bd;'>後衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        <span class='tier-line' style='background:#fa19bd;'>後衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153002001_tsukuyomi_aya_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#b861ef;"></div>
@@ -1371,11 +1372,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (自分のライフが最大値のとき) バチバチいっちゃお 敵前衛に<color=#009cff>104%</color>のダメージ、パワー<color=#009cff>-9.4%</color>(3.7秒) ついでに盛っとく？ 敵単体に<color=#009cff>132%</color>のダメージ、スキル耐性<color=#009cff>-12%</color>(4秒)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153002007_rabii_ori_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ec587b;"></div>
@@ -1392,11 +1393,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (対象にデバフが1個以上あるとき) 背の順で狙うのです 敵前衛に<color=#009cff>204%</color>のダメージ、CT速度<color=#009cff>-6%</color>(9.8秒)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153002008_raia_ori_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ff880a;"></div>
@@ -1413,11 +1414,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (自分が後衛のとき)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#ff5606;">サポート</span>
+                    <span class='tier-line' style='background:#fa19bd;'>後衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff5606;">サポート</span>
-                        <span class='tier-line' style='background:#fa19bd;'>後衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153002010_pandora_leg_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#b861ef;"></div>
@@ -1435,11 +1436,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (パワーの9.3%分のライフを回復)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#3cbe00;">ヒール</span>
+                    <span class='tier-line' style='background:#fa19bd;'>後衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#3cbe00;">ヒール</span>
-                        <span class='tier-line' style='background:#fa19bd;'>後衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153002012_kyukuropusu_kam_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ec587b;"></div>
@@ -1457,11 +1458,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (自分にデバフが無いとき)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    <span class='tier-line' style='background:#fa19bd;'>後衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        <span class='tier-line' style='background:#fa19bd;'>後衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153002013_arutemisu_leg_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#b861ef;"></div>
@@ -1480,11 +1481,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 自分が前衛のとき自分にヒール<color=#ff0078>5.1%</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    <span class='tier-line' style='background:#30a6fa;'>前衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        <span class='tier-line' style='background:#30a6fa;'>前衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003004_ebua_aya_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#1dc3e7;"></div>
@@ -1502,11 +1503,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 自分が後衛のときSP<color=#ff0078>+6</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    <span class='tier-line' style='background:#fa19bd;'>後衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        <span class='tier-line' style='background:#fa19bd;'>後衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003005_andoromeda_leg_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#1dc3e7;"></div>
@@ -1523,11 +1524,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 自分が前衛のときスキル耐性<color=#009cff>-12%</color>(9.8秒)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    <span class='tier-line' style='background:#30a6fa;'>前衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        <span class='tier-line' style='background:#30a6fa;'>前衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153003013_ririi_ori_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#b861ef;"></div>
@@ -1544,11 +1545,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【束縛】1秒に1回、束縛の数だけ合計パワー5%のダメージ(最大50%)束縛の数だけダメージが増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173001001_arutemisu_kam_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#1dc3e7;"></div>
@@ -1565,11 +1566,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【魅惑】編成中の花属性の数だけスキル耐性-1%(最大120%)魅惑の数だけ減少量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173001004_asuka_aya_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ec587b;"></div>
@@ -1586,11 +1587,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【信念】編成中の日属性の数だけスキルダメージ+1%(最大120%)信念の数だけ増加量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#ff205d;">パワフル</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff205d;">パワフル</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173001005_asa_leg_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ff880a;"></div>
@@ -1607,11 +1608,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (対象のライフが最大値の75%以下のとき)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173002001_hyupunosu_kam_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ec587b;"></div>
@@ -1628,11 +1629,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【悪戯】デバフが付与されるたびSP耐性-1%(最大100%)悪戯の数だけ減少量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173002005_andoromeda_leg_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#b861ef;"></div>
@@ -1648,11 +1649,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (対象が月属性のとき)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#3cbe00;">ヒール</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#3cbe00;">ヒール</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173002006_amon_kam_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#b861ef;"></div>
@@ -1669,11 +1670,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【元気】ライフを回復するたびスキルダメージ+1%(最大100%)元気の数だけ増加量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#3cbe00;">ヒール</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#3cbe00;">ヒール</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173002007_kateia_leg_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ec587b;"></div>
@@ -1690,11 +1691,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【抱擁】スペシャルで攻撃されるたびSP耐性-4%(最大100%)抱擁の数だけ減少量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173002010_kyashi_ori_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ff880a;"></div>
@@ -1711,11 +1712,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【御利益】スペシャルを使用するたび自分のSP+3(最大+30)御利益の数だけ増加量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#ff5606;">サポート</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff5606;">サポート</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173002014_daikokuten_aya_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ff880a;"></div>
@@ -1732,11 +1733,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【悪戯】デバフが付与されるたびSP耐性-1%(最大100%)悪戯の数だけ減少量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173002015_gaburieru_leg_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#b861ef;"></div>
@@ -1752,11 +1753,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (対象が雪属性のとき)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#ff5606;">サポート</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff5606;">サポート</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173003007_meideru_ori_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#1dc3e7;"></div>
@@ -1773,11 +1774,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【圧迫】圧迫の数だけスキル耐性-10%(最大100%)圧迫の数だけ減少量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173003018_miruru_ori_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#b861ef;"></div>
@@ -1794,11 +1795,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 自分が前衛のとき、自分にヒール<color=#ff0078>3.9%</color>(パワーの<color=#ff0078>3.9%</color>分のライフを回復)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#ff205d;">パワフル</span>
+                    <span class='tier-line' style='background:#30a6fa;'>前衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff205d;">パワフル</span>
-                        <span class='tier-line' style='background:#30a6fa;'>前衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153001006_kateia_leg_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ff880a;"></div>
@@ -1813,11 +1814,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
                      data-search="メイデル 運命見据えし巫者 もう、逃がさない WAVE開始時に回復量<color=#009cff>-20%</color>(40秒) 祈りは届かないままで 敵全体に<color=#009cff>1504%</color>のダメージ、回復量<color=#009cff>-30%</color>(30秒) 言葉を超えて 敵単体に<color=#009cff>221%</color>のダメージ、パワー<color=#009cff>-3%</color>(7.3秒) 皆さんお静かに 敵全体に<color=#009cff>152%</color>のダメージ">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        <span class='tier-line' style='background:linear-gradient(to right, #ef25c9, #2597fd);'>前/後</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153002006_meideru_ori_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#b861ef;"></div>
@@ -1834,11 +1835,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (自分が前衛のとき) 燐々燐火 ランダム4回<color=#009cff>60%</color>ダメージ">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#ff205d;">パワフル</span>
+                    <span class='tier-line' style='background:#30a6fa;'>前衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff205d;">パワフル</span>
-                        <span class='tier-line' style='background:#30a6fa;'>前衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153002009_kuzunoha_aya_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#1dc3e7;"></div>
@@ -1855,11 +1856,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【やる気】ライフを回復するたびSPダメージ+1%(最大100%)やる気の数だけ増加量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#ff5606;">サポート</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff5606;">サポート</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173001002_kuzunoha_aya_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ec587b;"></div>
@@ -1876,11 +1877,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【元気】ライフを回復するたびスキルダメージ+1%(最大100%)元気の数だけ増加量が増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#3cbe00;">ヒール</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#3cbe00;">ヒール</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173001003_nike_kam_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ec587b;"></div>
@@ -1895,11 +1896,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
                      data-search="パンドラ 垂れてきてしまいました 休憩しましょう 味方全体にパワー<color=#ff0078>+7.9%</color>、デバフを1つ解除">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#ff5606;">サポート</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff5606;">サポート</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173001006_pandora_leg_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#1dc3e7;"></div>
@@ -1915,11 +1916,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 (敵が1体のとき)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173002002_kyubere_kam_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ff880a;"></div>
@@ -1934,11 +1935,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
                      data-search="コハル お兄ちゃんが足りない きゅるるーん 敵前衛に合計パワーの<color=#009cff>591%</color>のダメージ、バフを1つ解除">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#ff205d;">パワフル</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff205d;">パワフル</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173002009_koharu_ori_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#1dc3e7;"></div>
@@ -1955,11 +1956,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 味方前衛のライフを最大値の<color=#ff0078>13%</color>回復">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#ff205d;">パワフル</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff205d;">パワフル</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173002011_furanka_ori_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ec587b;"></div>
@@ -1975,11 +1976,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 味方前衛にライフ最大値の<color=#ff0078>18%</color>を回復">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#ff205d;">パワフル</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff205d;">パワフル</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173002013_ebua_aya_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#b861ef;"></div>
@@ -1996,11 +1997,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 <color=#a0a0a0>【束縛】1秒に1回、束縛の数だけ合計パワー5%のダメージ(最大50%)束縛の数だけダメージが増える</color>">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:flex-start; left:4px;">
+                    <span class="tier-type" style="background:#2372ff;">ブレイク</span>
+                    
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:flex-start; left:4px; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#2372ff;">ブレイク</span>
-                        
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/173002016_ririi_ori_2025_01_ac.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#1dc3e7;"></div>
@@ -2017,11 +2018,11 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
 自分が前衛のとき自分に<color=#ff0078>3.9%</color>のヒール(パワーの<color=#ff0078>3.9%</color>分のライフを回復)">
             <div class="tier-stars-top"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg></div>
             <div class="tier-card">
+                <div class="tier-type-line-overlay" style="justify-content:center; left:0;">
+                    <span class="tier-type" style="background:#ff205d;">パワフル</span>
+                    <span class='tier-line' style='background:#30a6fa;'>前衛</span>
+                </div>
                 <div class="tier-img-wrap">
-                    <div class="tier-type-line-overlay" style="display:flex; justify-content:center; left:0; gap:2px; position:absolute; top:4px; width:100%;">
-                        <span class="tier-type" style="background:#ff205d;">パワフル</span>
-                        <span class='tier-line' style='background:#30a6fa;'>前衛</span>
-                    </div>
                     <img src="https://meister.knowhow.jp/wp-content/uploads/153001003_kyubere_kam_2025_01_mc.webp" class="main-char" loading="lazy">
                     <div class="tier-element-wrap">
                         <div class="element-diamond-bg" style="background:#ec587b;"></div>
@@ -2034,7 +2035,6 @@ body { background: #fdfaf5; margin: 0; padding: 0; font-family: 'Zen Maru Gothic
         </div></div></div>
 </div>
 <script>
-// (以下スクリプト部分は変更なし)
 function parseColorTags(text) {
     if (!text) return "";
     let parsed = text.replace(/\\n/g, '<br>').replace(/\n/g, '<br>');
