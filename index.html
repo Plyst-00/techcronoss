@@ -27,7 +27,7 @@
     font-family: 'Zen Maru Gothic', sans-serif !important;
     font-weight: 700;
     color: #444;
-    background: transparent !important;  /* 透明に */
+    background: transparent !important;
     line-height: 1.5;
 }
 
@@ -150,6 +150,50 @@
     object-fit: contain;
     filter: brightness(0) invert(1);
 }
+
+/* カードフッター（右下アイコンエリア） */
+.tier-swell-fix .tier-img-footer {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    display: flex;
+    gap: 2px;
+    z-index: 120;
+    pointer-events: none;
+}
+
+/* NEWアイコン */
+.tier-swell-fix .tier-new {
+    background: #ff4d6d;
+    color: white;
+    font-size: 11px;
+    font-weight: 900;
+    padding: 2px 6px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+/* 上下アイコン */
+.tier-swell-fix .tier-updown {
+    width: 24px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.tier-swell-fix .tier-updown[data-updown="↑"] { color: #f00; }
+.tier-swell-fix .tier-updown[data-updown="↓"] { color: #00f; }
 
 /* カード本体 */
 .tier-swell-fix .card-shadow-wrapper {
@@ -309,12 +353,11 @@
     border-radius: 0 0 16px 16px;
 }
 
-/* ---------- スマホ最適化（旧書式完全再現） ---------- */
+/* ---------- スマホ最適化 ---------- */
 @media (max-width: 600px) {
     .tier-swell-fix {
         padding: 8px;
     }
-    /* フィルターを縦積みに */
     .tier-swell-fix .filter-row {
         flex-direction: column;
         gap: 16px;
@@ -334,7 +377,6 @@
         height: 20px;
     }
 
-    /* カードを中央寄せ・3列に */
     .tier-swell-fix .tier-cards {
         gap: 56px 24px !important;
         justify-content: center !important;
@@ -399,6 +441,16 @@
     .tier-swell-fix .modal-header img {
         width: 60px;
         height: 60px;
+    }
+
+    .tier-swell-fix .tier-updown {
+        width: 20px;
+        height: 20px;
+        font-size: 14px;
+    }
+    .tier-swell-fix .tier-new {
+        font-size: 9px;
+        padding: 1px 4px;
     }
 }
 
@@ -570,7 +622,7 @@
 </div>
 
 <script>
-// データ取得と描画（前回と同じ）
+// データ取得と描画（NEWアイコン対応）
 let allCards = [];
 const CAT_COLORS = {"BATTLE": "#fe1b76", "ASSIST": "#0072ff"};
 const TYPE_COLORS = {"ヒール": "#3cbe00", "パワフル": "#ff205d", "サポート": "#ff5606", "ブレイク": "#2372ff", "トリック": "#922efe"};
@@ -622,6 +674,15 @@ function renderCards(cards) {
             const starSvg = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg>';
             const stars = Array(card.rarity).fill(starSvg).join('');
             const lineHtml = !card.is_assist ? `<span class="tier-line" style="background:${LINE_COLORS[card.line] || '#888'};">${card.line}</span>` : '';
+            
+            // NEWアイコン
+            const newHtml = card.is_new ? '<span class="tier-new">NEW</span>' : '';
+            // 上下アイコン
+            const updownHtml = (card.updown === '↑' || card.updown === '↓') ? `<span class="tier-updown" data-updown="${card.updown}">${card.updown === '↑' ? '▲' : '▼'}</span>` : '';
+            
+            // フッターコンテナ（アイコンを横並び）
+            const footerHtml = (newHtml || updownHtml) ? `<div class="tier-img-footer">${newHtml}${updownHtml}</div>` : '';
+
             const cardDiv = document.createElement('div');
             cardDiv.className = 'card-shadow-wrapper';
             cardDiv.dataset.id = card.id;
@@ -644,6 +705,7 @@ function renderCards(cards) {
                             <div class="element-diamond-bg" style="background:${card.element_color};"></div>
                             <img src="${card.element_img}" class="element-icon">
                         </div>
+                        ${footerHtml}
                     </div>
                     <div class="tier-charname">${card.name}</div>
                     <div class="tier-category" style="background:${CAT_COLORS[card.category] || '#222'};">${card.category}</div>
@@ -718,7 +780,7 @@ function applyFilter() {
     });
 }
 
-// 初期化：JSON読み込み（REST APIエンドポイント）
+// 初期化：JSON読み込み（APIエンドポイント）
 fetch('https://meister.knowhow.jp/wp-json/custom/v1/tier-cards')
     .then(response => {
         if (!response.ok) {
