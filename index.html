@@ -6,7 +6,7 @@
 <title>テクロノス 最強Tier表（エアプ版）</title>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&display=swap" rel="stylesheet">
 <style>
-/* 全体的なリセット：このブロック内でのみ有効 */
+/* 全体的なリセット */
 .tier-swell-fix *,
 .tier-swell-fix *::before,
 .tier-swell-fix *::after {
@@ -31,14 +31,12 @@
     line-height: 1.5;
 }
 
-/* 画像の暴走を防ぐ */
 .tier-swell-fix img {
     max-width: none !important;
     height: auto !important;
     vertical-align: middle;
 }
 
-/* ボタン・入力のリセット */
 .tier-swell-fix button,
 .tier-swell-fix input {
     font-family: inherit !important;
@@ -48,7 +46,7 @@
     outline: none;
 }
 
-/* 検索・フィルター */
+/* 検索・フィルター（既存） */
 .tier-swell-fix .filter-container {
     margin-bottom: 20px;
     background: #fff;
@@ -56,11 +54,9 @@
     border-radius: 16px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
-
 .tier-swell-fix .search-row {
     margin-bottom: 16px;
 }
-
 .tier-swell-fix .search-input {
     width: 100% !important;
     padding: 12px 20px;
@@ -73,12 +69,10 @@
     outline: none;
     transition: 0.2s;
 }
-
 .tier-swell-fix .search-input:focus {
     border-color: #ff76a1 !important;
     box-shadow: 0 0 8px rgba(255,118,161,0.2);
 }
-
 .tier-swell-fix .filter-row {
     display: flex;
     flex-wrap: wrap;
@@ -86,7 +80,6 @@
     margin-bottom: 16px;
     align-items: flex-start;
 }
-
 .tier-swell-fix .filter-label {
     font-size: 0.82em;
     font-weight: 900;
@@ -96,13 +89,11 @@
     border: none !important;
     padding: 0 !important;
 }
-
 .tier-swell-fix .filter-buttons {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
 }
-
 .tier-swell-fix .filter-btn {
     display: inline-flex;
     align-items: center;
@@ -117,13 +108,11 @@
     transition: 0.2s;
     line-height: 1.2 !important;
 }
-
 .tier-swell-fix .filter-btn.active {
     background: #ff76a1 !important;
     color: #fff !important;
     border-color: #ff76a1 !important;
 }
-
 .tier-swell-fix .btn-element-wrap {
     position: relative;
     width: 24px;
@@ -133,7 +122,6 @@
     justify-content: center;
     flex-shrink: 0;
 }
-
 .tier-swell-fix .btn-element-wrap .element-diamond-bg {
     position: absolute;
     width: 85%;
@@ -141,7 +129,6 @@
     border-radius: 5px;
     transform: rotate(45deg);
 }
-
 .tier-swell-fix .element-icon {
     position: relative;
     width: 70%;
@@ -151,7 +138,7 @@
     filter: brightness(0) invert(1);
 }
 
-/* カードフッター（右下アイコンエリア） */
+/* カードフッター */
 .tier-swell-fix .tier-img-footer {
     position: absolute;
     bottom: 2px;
@@ -161,8 +148,6 @@
     z-index: 120;
     pointer-events: none;
 }
-
-/* NEWアイコン */
 .tier-swell-fix .tier-new {
     background: #ff4d6d;
     color: white;
@@ -178,8 +163,6 @@
     justify-content: center;
     white-space: nowrap;
 }
-
-/* 上下アイコン */
 .tier-swell-fix .tier-updown {
     width: 24px;
     height: 24px;
@@ -204,22 +187,18 @@
     transition: transform 0.2s, opacity 0.5s;
     cursor: pointer;
 }
-
 .tier-swell-fix .card-shadow-wrapper.reveal {
     opacity: 1;
 }
-
 .tier-swell-fix .card-shadow-wrapper:hover {
     transform: scale(1.05);
     z-index: 1000;
 }
-
 .tier-swell-fix .tier-row {
     display: flex;
     flex-direction: column;
     margin-bottom: 60px;
 }
-
 .tier-swell-fix .tier-label {
     position: -webkit-sticky;
     position: sticky;
@@ -237,14 +216,47 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
+/* 従来の1カラム表示用（フィルター時） */
 .tier-swell-fix .tier-cards {
     display: flex;
     flex-wrap: wrap;
     gap: 48px 20px;
-    justify-content: flex-start;
+    justify-content: flex-start;  /* 従来通り左寄せ */
     padding: 60px 10px 20px;
 }
 
+/* 左右カラムコンテナ */
+.tier-swell-fix .tier-cols {
+    display: flex;
+    gap: 20px;
+    position: relative;
+}
+.tier-swell-fix .tier-cols::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background: #ddd;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+.tier-swell-fix .tier-col {
+    flex: 1;
+    min-width: 0;
+}
+
+/* 各カラム内のカードコンテナ（中央寄せに変更） */
+.tier-swell-fix .tier-col-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px 20px;
+    justify-content: center;  /* 【修正2】中央寄せ */
+    padding: 60px 0 20px;
+}
+
+/* カード内部（既存） */
 .tier-swell-fix .tier-stars-top {
     position: absolute;
     top: -18px;
@@ -255,13 +267,11 @@
     z-index: 70;
     pointer-events: none;
 }
-
 .tier-swell-fix .tier-stars-top svg {
     width: 28px;
     height: 28px;
     margin: 0 -4px;
 }
-
 .tier-swell-fix .tier-card {
     position: relative;
     width: 100%;
@@ -272,7 +282,6 @@
     overflow: visible;
     z-index: 10;
 }
-
 .tier-swell-fix .tier-img-wrap {
     position: relative;
     width: 100%;
@@ -281,14 +290,12 @@
     border-radius: 16px 16px 0 0;
     overflow: hidden;
 }
-
 .tier-swell-fix .tier-img-wrap img.main-char {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
     display: block;
 }
-
 .tier-swell-fix .tier-type-line-overlay {
     display: flex;
     gap: 2px;
@@ -297,7 +304,6 @@
     width: 100%;
     z-index: 60;
 }
-
 .tier-swell-fix .tier-type,
 .tier-swell-fix .tier-line {
     color: #fff;
@@ -310,7 +316,6 @@
     display: inline-block !important;
     white-space: nowrap;
 }
-
 .tier-swell-fix .tier-element-wrap {
     position: absolute;
     bottom: 2px;
@@ -322,7 +327,6 @@
     align-items: center;
     justify-content: center;
 }
-
 .tier-swell-fix .tier-element-wrap .element-diamond-bg {
     position: absolute;
     width: 75%;
@@ -331,7 +335,6 @@
     transform: rotate(45deg);
     border: 2px solid #fff;
 }
-
 .tier-swell-fix .tier-charname {
     width: 100%;
     background: #f2f2f2;
@@ -342,7 +345,6 @@
     padding: 5px 1px;
     line-height: 1.1;
 }
-
 .tier-swell-fix .tier-category {
     width: 100%;
     color: #fff;
@@ -353,7 +355,7 @@
     border-radius: 0 0 16px 16px;
 }
 
-/* ---------- スマホ最適化 ---------- */
+/* スマホ最適化 */
 @media (max-width: 600px) {
     .tier-swell-fix {
         padding: 8px;
@@ -377,58 +379,75 @@
         height: 20px;
     }
 
+    /* 左右カラム */
+    .tier-swell-fix .tier-cols {
+        gap: 8px;
+    }
+    /* 従来1カラム表示 */
     .tier-swell-fix .tier-cards {
-        gap: 56px 24px !important;
+        gap: 40px 8px !important;
+        padding: 50px 0 20px !important;
+        justify-content: center !important;  /* スマホでは中央寄せに変更（必要なら） */
+    }
+    .tier-swell-fix .tier-col-cards {
+        gap: 40px 8px !important;
+        padding: 50px 0 20px !important;
         justify-content: center !important;
-        padding: 60px 0 20px !important;
     }
     .tier-swell-fix .card-shadow-wrapper {
-        width: 96px !important;
+        width: 90px !important;
     }
     .tier-swell-fix .tier-img-wrap {
-        height: 96px;
+        height: 90px;
     }
     .tier-swell-fix .tier-type-line-overlay {
         top: -12px !important;
     }
     .tier-swell-fix .tier-type,
     .tier-swell-fix .tier-line {
-        font-size: 0.65em;
-        width: auto !important;
-        min-width: 42px;
-        padding: 1px 6px;
+        font-size: 0.6em;
+        min-width: 36px;
+        padding: 1px 4px;
     }
     .tier-swell-fix .tier-stars-top {
-        top: -32px;
+        top: -28px;
     }
     .tier-swell-fix .tier-stars-top svg {
-        width: 22px;
-        height: 22px;
+        width: 18px;
+        height: 18px;
+        margin: 0 -3px;
     }
     .tier-swell-fix .tier-element-wrap {
-        width: 21px;
-        height: 21px;
+        width: 20px;
+        height: 20px;
         bottom: 1px;
         left: 1px;
     }
     .tier-swell-fix .tier-element-wrap .element-diamond-bg {
         border-radius: 4px;
-        border-width: 1.5px;
+        border-width: 1px;
     }
     .tier-swell-fix .tier-charname {
-        font-size: 0.8em;
+        font-size: 0.7em;
         padding: 3px 1px;
     }
     .tier-swell-fix .tier-category {
-        font-size: 0.95em;
+        font-size: 0.85em;
         padding: 2px 0;
     }
     .tier-swell-fix .tier-label {
         font-size: 1.2em;
         padding: 8px 12px;
     }
-
-    /* モーダルのスマホ最適化 */
+    .tier-swell-fix .tier-updown {
+        width: 20px;
+        height: 20px;
+        font-size: 14px;
+    }
+    .tier-swell-fix .tier-new {
+        font-size: 9px;
+        padding: 1px 4px;
+    }
     .tier-swell-fix .modal-content {
         width: 95%;
         padding: 16px;
@@ -442,19 +461,9 @@
         width: 60px;
         height: 60px;
     }
-
-    .tier-swell-fix .tier-updown {
-        width: 20px;
-        height: 20px;
-        font-size: 14px;
-    }
-    .tier-swell-fix .tier-new {
-        font-size: 9px;
-        padding: 1px 4px;
-    }
 }
 
-/* モーダル基本スタイル */
+/* モーダル基本スタイル（既存） */
 .tier-swell-fix #skill-modal {
     display: none;
     position: fixed;
@@ -468,7 +477,6 @@
     align-items: center;
     backdrop-filter: blur(5px);
 }
-
 .tier-swell-fix .modal-content {
     background: #fdfaf5;
     width: 92%;
@@ -479,7 +487,6 @@
     max-height: 85vh;
     overflow-y: auto;
 }
-
 .tier-swell-fix .modal-close {
     position: absolute;
     top: 16px;
@@ -488,7 +495,6 @@
     cursor: pointer;
     color: #aaa;
 }
-
 .tier-swell-fix .modal-header {
     display: flex;
     align-items: center;
@@ -498,7 +504,6 @@
     padding: 15px;
     border-radius: 20px;
 }
-
 .tier-swell-fix .modal-header img {
     width: 70px;
     height: 70px;
@@ -506,7 +511,6 @@
     object-fit: cover;
     border: 3px solid #f0f0f0;
 }
-
 .tier-swell-fix .skill-box {
     margin-bottom: 16px;
     background: #fff;
@@ -515,7 +519,6 @@
     border: 1px solid #eee;
     box-shadow: 0 2px 8px rgba(0,0,0,0.03);
 }
-
 .tier-swell-fix .skill-title-row {
     background: #f8f9fa;
     padding: 10px 16px;
@@ -523,7 +526,6 @@
     display: flex;
     align-items: center;
 }
-
 .tier-swell-fix .skill-label {
     font-size: 0.75em;
     background: #666;
@@ -533,20 +535,17 @@
     margin-right: 10px;
     white-space: nowrap;
 }
-
 .tier-swell-fix .skill-name {
     font-weight: 900;
     color: #333;
     font-size: 1.05em;
 }
-
 .tier-swell-fix .skill-body {
     padding: 14px 16px;
     font-size: 0.92em;
     line-height: 1.6;
     color: #555;
 }
-
 .tier-swell-fix .skill-footer {
     margin-top: 10px;
     padding-top: 8px;
@@ -622,7 +621,7 @@
 </div>
 
 <script>
-// データ取得と描画（NEWアイコン対応）
+// データ取得と描画（カテゴリー分割版＋フィルター条件付き）
 let allCards = [];
 const CAT_COLORS = {"BATTLE": "#fe1b76", "ASSIST": "#0072ff"};
 const TYPE_COLORS = {"ヒール": "#3cbe00", "パワフル": "#ff205d", "サポート": "#ff5606", "ブレイク": "#2372ff", "トリック": "#922efe"};
@@ -659,62 +658,101 @@ function buildFilterButtons(cards) {
     });
 }
 
+// カード要素生成関数
+function createCardElement(card) {
+    const starSvg = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg>';
+    const stars = Array(card.rarity).fill(starSvg).join('');
+    const lineHtml = !card.is_assist ? `<span class="tier-line" style="background:${LINE_COLORS[card.line] || '#888'};">${card.line}</span>` : '';
+
+    const newHtml = card.is_new ? '<span class="tier-new">NEW</span>' : '';
+    const updownHtml = (card.updown === '↑' || card.updown === '↓') ? `<span class="tier-updown" data-updown="${card.updown}">${card.updown === '↑' ? '▲' : '▼'}</span>` : '';
+    const footerHtml = (newHtml || updownHtml) ? `<div class="tier-img-footer">${newHtml}${updownHtml}</div>` : '';
+
+    const cardDiv = document.createElement('div');
+    cardDiv.className = 'card-shadow-wrapper';
+    cardDiv.dataset.id = card.id;
+    cardDiv.dataset.element = card.element;
+    cardDiv.dataset.type = card.type;
+    cardDiv.dataset.line = card.line;
+    cardDiv.dataset.category = card.category;
+    cardDiv.dataset.search = card.search_all;
+    cardDiv.setAttribute('onclick', `openModal('${card.id}')`);
+    cardDiv.innerHTML = `
+        <div class="tier-stars-top">${stars}</div>
+        <div class="tier-card">
+            <div class="tier-type-line-overlay" style="${card.overlay_style}">
+                <span class="tier-type" style="background:${TYPE_COLORS[card.type] || '#888'};">${card.type}</span>
+                ${lineHtml}
+            </div>
+            <div class="tier-img-wrap">
+                <img src="${card.img_url}" class="main-char" loading="lazy">
+                <div class="tier-element-wrap">
+                    <div class="element-diamond-bg" style="background:${card.element_color};"></div>
+                    <img src="${card.element_img}" class="element-icon">
+                </div>
+                ${footerHtml}
+            </div>
+            <div class="tier-charname">${card.name}</div>
+            <div class="tier-category" style="background:${CAT_COLORS[card.category] || '#222'};">${card.category}</div>
+        </div>
+    `;
+    return cardDiv;
+}
+
 function renderCards(cards) {
     const container = document.getElementById('tier-table');
     container.innerHTML = '';
     const tiers = [...new Set(cards.map(c => c.tier))].sort((a, b) => a - b);
+    
+    // 【修正3】特定フィルターが有効かどうかを判定
+    const isSpecialFilterActive = 
+        currentFilters.category !== null ||  // BATTLE または ASSIST が選択されている
+        currentFilters.line !== null;        // 前衛・後衛・前/後 が選択されている
+
     tiers.forEach(tier => {
         const tierCards = cards.filter(c => c.tier === tier);
         const rowDiv = document.createElement('div');
         rowDiv.className = 'tier-row';
         rowDiv.dataset.tier = tier;
-        rowDiv.innerHTML = `<div class="tier-label">Tier ${tier}</div><div class="tier-cards"></div>`;
-        const cardsDiv = rowDiv.querySelector('.tier-cards');
-        tierCards.forEach(card => {
-            const starSvg = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg>';
-            const stars = Array(card.rarity).fill(starSvg).join('');
-            const lineHtml = !card.is_assist ? `<span class="tier-line" style="background:${LINE_COLORS[card.line] || '#888'};">${card.line}</span>` : '';
-            
-            // NEWアイコン
-            const newHtml = card.is_new ? '<span class="tier-new">NEW</span>' : '';
-            // 上下アイコン
-            const updownHtml = (card.updown === '↑' || card.updown === '↓') ? `<span class="tier-updown" data-updown="${card.updown}">${card.updown === '↑' ? '▲' : '▼'}</span>` : '';
-            
-            // フッターコンテナ（アイコンを横並び）
-            const footerHtml = (newHtml || updownHtml) ? `<div class="tier-img-footer">${newHtml}${updownHtml}</div>` : '';
+        rowDiv.innerHTML = `<div class="tier-label">Tier ${tier}</div>`;
 
-            const cardDiv = document.createElement('div');
-            cardDiv.className = 'card-shadow-wrapper';
-            cardDiv.dataset.id = card.id;
-            cardDiv.dataset.element = card.element;
-            cardDiv.dataset.type = card.type;
-            cardDiv.dataset.line = card.line;
-            cardDiv.dataset.category = card.category;
-            cardDiv.dataset.search = card.search_all;
-            cardDiv.setAttribute('onclick', `openModal('${card.id}')`);
-            cardDiv.innerHTML = `
-                <div class="tier-stars-top">${stars}</div>
-                <div class="tier-card">
-                    <div class="tier-type-line-overlay" style="${card.overlay_style}">
-                        <span class="tier-type" style="background:${TYPE_COLORS[card.type] || '#888'};">${card.type}</span>
-                        ${lineHtml}
-                    </div>
-                    <div class="tier-img-wrap">
-                        <img src="${card.img_url}" class="main-char" loading="lazy">
-                        <div class="tier-element-wrap">
-                            <div class="element-diamond-bg" style="background:${card.element_color};"></div>
-                            <img src="${card.element_img}" class="element-icon">
-                        </div>
-                        ${footerHtml}
-                    </div>
-                    <div class="tier-charname">${card.name}</div>
-                    <div class="tier-category" style="background:${CAT_COLORS[card.category] || '#222'};">${card.category}</div>
-                </div>
-            `;
-            cardsDiv.appendChild(cardDiv);
-        });
+        if (isSpecialFilterActive) {
+            // 特殊フィルターが有効な場合は従来の1カラム表示
+            const cardsDiv = document.createElement('div');
+            cardsDiv.className = 'tier-cards';  // 既存のスタイルを使用
+            tierCards.forEach(card => {
+                cardsDiv.appendChild(createCardElement(card));
+            });
+            rowDiv.appendChild(cardsDiv);
+        } else {
+            // 通常時は左右カラム分割
+            const battleCards = tierCards.filter(c => c.category === 'BATTLE');
+            const assistCards = tierCards.filter(c => c.category === 'ASSIST');
+            const colsDiv = document.createElement('div');
+            colsDiv.className = 'tier-cols';
+
+            const battleCol = document.createElement('div');
+            battleCol.className = 'tier-col tier-col-battle';
+            const battleCardsDiv = document.createElement('div');
+            battleCardsDiv.className = 'tier-col-cards';
+            battleCards.forEach(card => battleCardsDiv.appendChild(createCardElement(card)));
+            battleCol.appendChild(battleCardsDiv);
+
+            const assistCol = document.createElement('div');
+            assistCol.className = 'tier-col tier-col-assist';
+            const assistCardsDiv = document.createElement('div');
+            assistCardsDiv.className = 'tier-col-cards';
+            assistCards.forEach(card => assistCardsDiv.appendChild(createCardElement(card)));
+            assistCol.appendChild(assistCardsDiv);
+
+            colsDiv.appendChild(battleCol);
+            colsDiv.appendChild(assistCol);
+            rowDiv.appendChild(colsDiv);
+        }
         container.appendChild(rowDiv);
     });
+
+    // 監視再設定
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('reveal'); observer.unobserve(entry.target); } });
     }, { threshold: 0.1 });
@@ -754,13 +792,29 @@ function getLabelColor(label) {
 function closeModal() { document.getElementById('skill-modal').style.display = 'none'; }
 
 function toggleFilter(btn) {
+    // 変更前の特殊フィルター状態を記録
+    const oldCategoryActive = currentFilters.category !== null;
+    const oldLineActive = currentFilters.line !== null;
+
     const type = btn.getAttribute('data-type');
     const value = btn.getAttribute('data-value');
     currentFilters[type] = (currentFilters[type] === value) ? null : value;
     document.querySelectorAll('.filter-btn').forEach(b => {
         b.classList.toggle('active', currentFilters[b.getAttribute('data-type')] === b.getAttribute('data-value'));
     });
-    applyFilter();
+
+    const newCategoryActive = currentFilters.category !== null;
+    const newLineActive = currentFilters.line !== null;
+
+    if (oldCategoryActive !== newCategoryActive || oldLineActive !== newLineActive) {
+        // 特殊フィルターの状態が変わった → レイアウトを再描画
+        renderCards(allCards);
+        // 再描画後に現在のフィルター状態を適用
+        applyFilter();
+    } else {
+        // 通常のフィルタリングのみ
+        applyFilter();
+    }
 }
 
 function applyFilter() {
@@ -778,9 +832,10 @@ function applyFilter() {
         const hasVisibleCard = Array.from(row.querySelectorAll('.card-shadow-wrapper')).some(c => c.style.display !== 'none');
         row.style.display = hasVisibleCard ? '' : 'none';
     });
+    // ★ ここで renderCards を呼ばない（削除）
 }
 
-// 初期化：JSON読み込み（APIエンドポイント）
+// 初期化：JSON読み込み
 fetch('https://meister.knowhow.jp/wp-json/custom/v1/tier-cards')
     .then(response => {
         if (!response.ok) {
