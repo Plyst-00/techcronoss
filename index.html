@@ -221,7 +221,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 48px 20px;
-    justify-content: flex-start;  /* 従来通り左寄せ */
+    justify-content: flex-start;
     padding: 60px 10px 20px;
 }
 
@@ -247,16 +247,16 @@
     min-width: 0;
 }
 
-/* 各カラム内のカードコンテナ（中央寄せに変更） */
+/* 各カラム内のカードコンテナ（中央寄せ） */
 .tier-swell-fix .tier-col-cards {
     display: flex;
     flex-wrap: wrap;
     gap: 48px 20px;
-    justify-content: center;  /* 【修正2】中央寄せ */
+    justify-content: center;
     padding: 60px 0 20px;
 }
 
-/* カード内部（既存） */
+/* カード内部 */
 .tier-swell-fix .tier-stars-top {
     position: absolute;
     top: -18px;
@@ -351,8 +351,27 @@
     font-size: 1.15em;
     font-weight: 900;
     text-align: center;
-    padding: 1px 0;
+    padding: 1px 8px;
     border-radius: 0 0 16px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* ランクバッジ */
+.tier-swell-fix .tier-rank-badge {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #fff;
+    color: #333;
+    font-weight: 900;
+    font-size: 0.9em;
+    line-height: 24px;
+    text-align: center;
+    margin-left: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 /* スマホ最適化 */
@@ -379,42 +398,33 @@
         height: 20px;
     }
 
-    /* 左右カラムの間隔をさらに狭く */
     .tier-swell-fix .tier-cols {
-        gap: 4px;  /* 20px → 4px */
+        gap: 4px;
     }
-
-    /* 各カラム内のカードコンテナ */
     .tier-swell-fix .tier-col-cards {
-        gap: 40px 4px !important;   /* 横gapを8px→4pxに */
+        gap: 40px 4px !important;
         padding: 50px 0 20px !important;
         justify-content: center !important;
         flex-wrap: wrap !important;
     }
-
-    /* カード幅を縮小 */
     .tier-swell-fix .card-shadow-wrapper {
-        width: 82px !important;      /* 90px→82px */
+        width: 82px !important;
     }
     .tier-swell-fix .tier-img-wrap {
-        height: 82px;                /* 高さも合わせる */
+        height: 82px;
     }
-
-    /* 従来の1カラム表示（特殊フィルター時）も同様に調整 */
     .tier-swell-fix .tier-cards {
         gap: 40px 4px !important;
         padding: 50px 0 20px !important;
         justify-content: center !important;
     }
-
-    /* 以下、カード内部のサイズ微調整（お好みで） */
     .tier-swell-fix .tier-type-line-overlay {
         top: -12px !important;
     }
     .tier-swell-fix .tier-type,
     .tier-swell-fix .tier-line {
         font-size: 0.6em;
-        min-width: 34px;             /* 少し狭く */
+        min-width: 34px;
         padding: 1px 3px;
     }
     .tier-swell-fix .tier-stars-top {
@@ -426,7 +436,7 @@
         margin: 0 -3px;
     }
     .tier-swell-fix .tier-element-wrap {
-        width: 18px;                 /* 20px→18px */
+        width: 18px;
         height: 18px;
         bottom: 1px;
         left: 1px;
@@ -436,12 +446,18 @@
         border-width: 1px;
     }
     .tier-swell-fix .tier-charname {
-        font-size: 0.65em;           /* 0.7em→0.65em */
+        font-size: 0.65em;
         padding: 2px 1px;
     }
     .tier-swell-fix .tier-category {
         font-size: 0.8em;
-        padding: 2px 0;
+        padding: 2px 4px;
+    }
+    .tier-swell-fix .tier-rank-badge {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        font-size: 0.8em;
     }
     .tier-swell-fix .tier-label {
         font-size: 1.2em;
@@ -471,7 +487,7 @@
     }
 }
 
-/* モーダル基本スタイル（既存） */
+/* モーダル基本スタイル */
 .tier-swell-fix #skill-modal {
     display: none;
     position: fixed;
@@ -519,6 +535,13 @@
     object-fit: cover;
     border: 3px solid #f0f0f0;
 }
+/* Sp力表示 */
+.tier-swell-fix .modal-sp-power {
+    font-size: 1.1em;
+    font-weight: 900;
+    color: #ff5606;
+    margin-top: 5px;
+}
 .tier-swell-fix .skill-box {
     margin-bottom: 16px;
     background: #fff;
@@ -563,6 +586,7 @@
     font-size: 0.85em;
     color: #ff5606;
     font-weight: 900;
+    flex-wrap: wrap;
 }
 </style>
 </head>
@@ -636,6 +660,20 @@ const TYPE_COLORS = {"ヒール": "#3cbe00", "パワフル": "#ff205d", "サポ�
 const LINE_COLORS = {"前衛": "#30a6fa", "後衛": "#fa19bd", "前/後": "linear-gradient(to right, #ef25c9, #2597fd)"};
 let currentFilters = { element: null, category: null, type: null, line: null };
 
+// Sp力からランクを取得
+function getSpRank(spPower) {
+    if (!spPower || spPower === "") return null;
+    const val = parseFloat(spPower);
+    if (isNaN(val)) return null;
+    if (val <= 2.5) return 'F';
+    if (val <= 3.0) return 'E';
+    if (val <= 3.5) return 'D';
+    if (val <= 4.0) return 'C';
+    if (val <= 4.5) return 'B';
+    if (val <= 5.0) return 'A';
+    return 'S';
+}
+
 function buildFilterButtons(cards) {
     const elements = [...new Set(cards.map(c => c.element))];
     const types = [...new Set(cards.map(c => c.type))];
@@ -666,7 +704,7 @@ function buildFilterButtons(cards) {
     });
 }
 
-// カード要素生成関数
+// カード要素生成関数（ASSIST中央寄せ修正版）
 function createCardElement(card) {
     const starSvg = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="filter:url(#star-shadow);"><polygon points="12,2 15,9 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,9" fill="url(#global-gold-gradient)" stroke="#7a6700" stroke-width="1.2"/></svg>';
     const stars = Array(card.rarity).fill(starSvg).join('');
@@ -675,6 +713,23 @@ function createCardElement(card) {
     const newHtml = card.is_new ? '<span class="tier-new">NEW</span>' : '';
     const updownHtml = (card.updown === '↑' || card.updown === '↓') ? `<span class="tier-updown" data-updown="${card.updown}">${card.updown === '↑' ? '▲' : '▼'}</span>` : '';
     const footerHtml = (newHtml || updownHtml) ? `<div class="tier-img-footer">${newHtml}${updownHtml}</div>` : '';
+
+    // ランクバッジ（BATTLEのみ）
+    let rankHtml = '';
+    if (card.category === 'BATTLE') {
+        const rank = getSpRank(card.sp_power);
+        rankHtml = rank ? `<span class="tier-rank-badge">${rank}</span>` : '';
+    }
+
+    // カテゴリー部分を条件分岐で完全に分ける
+    let categoryHtml = '';
+    if (card.category === 'ASSIST') {
+        // ASSIST：シンプルに中央寄せ
+        categoryHtml = `<div class="tier-category" style="background:${CAT_COLORS[card.category] || '#222'}; text-align: center; display: block;">${card.category}</div>`;
+    } else {
+        // BATTLE：flexで左にカテゴリー名、右にバッジ
+        categoryHtml = `<div class="tier-category" style="background:${CAT_COLORS[card.category] || '#222'}; display: flex; align-items: center; justify-content: space-between;">${card.category}${rankHtml}</div>`;
+    }
 
     const cardDiv = document.createElement('div');
     cardDiv.className = 'card-shadow-wrapper';
@@ -701,7 +756,7 @@ function createCardElement(card) {
                 ${footerHtml}
             </div>
             <div class="tier-charname">${card.name}</div>
-            <div class="tier-category" style="background:${CAT_COLORS[card.category] || '#222'};">${card.category}</div>
+            ${categoryHtml}
         </div>
     `;
     return cardDiv;
@@ -712,10 +767,9 @@ function renderCards(cards) {
     container.innerHTML = '';
     const tiers = [...new Set(cards.map(c => c.tier))].sort((a, b) => a - b);
     
-    // 【修正3】特定フィルターが有効かどうかを判定
     const isSpecialFilterActive = 
-        currentFilters.category !== null ||  // BATTLE または ASSIST が選択されている
-        currentFilters.line !== null;        // 前衛・後衛・前/後 が選択されている
+        currentFilters.category !== null ||
+        currentFilters.line !== null;
 
     tiers.forEach(tier => {
         const tierCards = cards.filter(c => c.tier === tier);
@@ -725,15 +779,13 @@ function renderCards(cards) {
         rowDiv.innerHTML = `<div class="tier-label">Tier ${tier}</div>`;
 
         if (isSpecialFilterActive) {
-            // 特殊フィルターが有効な場合は従来の1カラム表示
             const cardsDiv = document.createElement('div');
-            cardsDiv.className = 'tier-cards';  // 既存のスタイルを使用
+            cardsDiv.className = 'tier-cards';
             tierCards.forEach(card => {
                 cardsDiv.appendChild(createCardElement(card));
             });
             rowDiv.appendChild(cardsDiv);
         } else {
-            // 通常時は左右カラム分割
             const battleCards = tierCards.filter(c => c.category === 'BATTLE');
             const assistCards = tierCards.filter(c => c.category === 'ASSIST');
             const colsDiv = document.createElement('div');
@@ -760,7 +812,6 @@ function renderCards(cards) {
         container.appendChild(rowDiv);
     });
 
-    // 監視再設定
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('reveal'); observer.unobserve(entry.target); } });
     }, { threshold: 0.1 });
@@ -771,12 +822,19 @@ function openModal(cardId) {
     const card = allCards.find(c => c.id === cardId);
     if (!card) return;
     const body = document.getElementById('modal-body');
-    let skillHtml = `<div class="modal-header"><img src="${card.img_url}"><div><div style="font-size:1.3em; font-weight:900; color:#333;">${card.name} <span style="font-size:0.7em; color:#888; margin-left:4px;">[${card.nickname || ''}]</span></div><div style="font-size:0.8em; color:#999; letter-spacing:1px;">CHARACTER DETAILS</div></div></div>`;
+    
+    // Sp力表示
+    const spPowerHtml = card.sp_power ? `<div class="modal-sp-power">Sp力 ${card.sp_power}/秒</div>` : '';
+
+    let skillHtml = `<div class="modal-header"><img src="${card.img_url}"><div><div style="font-size:1.3em; font-weight:900; color:#333;">${card.name} <span style="font-size:0.7em; color:#888; margin-left:4px;">[${card.nickname || ''}]</span></div><div style="font-size:0.8em; color:#999; letter-spacing:1px;">CHARACTER DETAILS</div>${spPowerHtml}</div></div>`;
+
     card.skills.forEach(s => {
         if (!s.name || s.name === "-") return;
         const formattedDesc = parseColorTags(s.desc);
         let ctDisplay = (s.ct && s.ct !== "-") ? (isNaN(parseFloat(s.ct)) ? s.ct : parseFloat(s.ct).toFixed(1)) : "";
-        skillHtml += `<div class="skill-box"><div class="skill-title-row"><span class="skill-label" style="background:${getLabelColor(s.label)}">${s.label}</span><span class="skill-name">${s.name}</span></div><div class="skill-body"><div>${formattedDesc}</div>${(ctDisplay || s.use) ? `<div class="skill-footer">${ctDisplay ? `<span>⏱ クールタイム: ${ctDisplay}</span>` : ''}${(s.use && s.use !== "-") ? `<span>🔄 使用回数: ${s.use}</span>` : ''}</div>` : ''}</div></div>`;
+        // 獲得Sp表示（スキル1,2のみ）
+        const spDisplay = (s.sp && s.sp !== "" && s.sp !== "0") ? `<span>⚡ 獲得Sp: ${s.sp}</span>` : '';
+        skillHtml += `<div class="skill-box"><div class="skill-title-row"><span class="skill-label" style="background:${getLabelColor(s.label)}">${s.label}</span><span class="skill-name">${s.name}</span></div><div class="skill-body"><div>${formattedDesc}</div>${(ctDisplay || s.use || spDisplay) ? `<div class="skill-footer">${ctDisplay ? `<span>⏱ クールタイム: ${ctDisplay}</span>` : ''}${spDisplay}${(s.use && s.use !== "-") ? `<span>🔄 使用回数: ${s.use}</span>` : ''}</div>` : ''}</div></div>`;
     });
     body.innerHTML = skillHtml;
     document.getElementById('skill-modal').style.display = 'flex';
@@ -800,7 +858,6 @@ function getLabelColor(label) {
 function closeModal() { document.getElementById('skill-modal').style.display = 'none'; }
 
 function toggleFilter(btn) {
-    // 変更前の特殊フィルター状態を記録
     const oldCategoryActive = currentFilters.category !== null;
     const oldLineActive = currentFilters.line !== null;
 
@@ -815,12 +872,9 @@ function toggleFilter(btn) {
     const newLineActive = currentFilters.line !== null;
 
     if (oldCategoryActive !== newCategoryActive || oldLineActive !== newLineActive) {
-        // 特殊フィルターの状態が変わった → レイアウトを再描画
         renderCards(allCards);
-        // 再描画後に現在のフィルター状態を適用
         applyFilter();
     } else {
-        // 通常のフィルタリングのみ
         applyFilter();
     }
 }
@@ -840,10 +894,9 @@ function applyFilter() {
         const hasVisibleCard = Array.from(row.querySelectorAll('.card-shadow-wrapper')).some(c => c.style.display !== 'none');
         row.style.display = hasVisibleCard ? '' : 'none';
     });
-    // ★ ここで renderCards を呼ばない（削除）
 }
 
-// 初期化：JSON読み込み
+// 初期化
 fetch('https://meister.knowhow.jp/wp-json/custom/v1/tier-cards')
     .then(response => {
         if (!response.ok) {
